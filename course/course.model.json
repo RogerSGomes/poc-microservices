@@ -1,0 +1,47 @@
+{
+    "dados_iniciais": {
+        "sigla": "ECO-1234",
+        "nome": "Curso de doido",
+        "tipo": "",
+        "fluxo_continuo": false,
+        "disciplina_eletiva": false,
+        "forma_realizacao": "presencial",
+        "plataforma": "Unicamp",
+        "mensagem": "0 a ? char",
+        "descricao": "50 a 10k char",
+        "unidade": "",
+        "departamento": ""
+    },
+    "outros": {
+        "palavras_chave": [
+            "teste",
+            "testando",
+            "nha",
+            "nho"
+        ],
+        "area_geral": "dasdas",
+        "areas_tematicas": [
+            "dsads",
+            "dsadasda"
+        ]
+    },
+    "carga_horaria": {
+        "presencial_pratica": "",
+        "presencial_teorica": "",
+        "ead_pratica": "",
+        "ead_teorica": ""
+    },
+    "conteudo": {
+        "ementa?": "0 a 1,5k char",
+        "bibliografia": "50 a 10k char",
+        "procedimentos": "50 a 10k char",
+        "objetivo": "50 a 1k char",
+        "publico_alvo": "10 a 1k char"
+    },
+    "criterios": {
+        "frequencia_minima": "",
+        "nota_minima": "",
+        "grau_escolaridade": "",
+        "divulgacao_corporativa": true
+    }
+}
