@@ -1,47 +1,241 @@
 {
+  "dados_curso": {
     "dados_iniciais": {
-        "sigla": "ECO-1234",
-        "nome": "Curso de doido",
-        "tipo": "",
-        "fluxo_continuo": false,
-        "disciplina_eletiva": false,
-        "forma_realizacao": "presencial",
-        "plataforma": "Unicamp",
-        "mensagem": "0 a ? char",
-        "descricao": "50 a 10k char",
-        "unidade": "",
-        "departamento": ""
+      "sigla": "ECO-1234",
+      "nome": "Curso de doido",
+      "tipo": "",
+      "fluxo_continuo": false,
+      "disciplina_eletiva": false,
+      "forma_realizacao": "presencial",
+      "plataforma": "Unicamp",
+      "mensagem": "0 a ? char",
+      "descricao": "50 a 10k char",
+      "unidade": "",
+      "departamento": ""
     },
     "outros": {
-        "palavras_chave": [
-            "teste",
-            "testando",
-            "nha",
-            "nho"
-        ],
-        "area_geral": "dasdas",
-        "areas_tematicas": [
-            "dsads",
-            "dsadasda"
-        ]
+      "palavras_chave": ["teste", "testando", "nha", "nho"],
+      "area_geral": "dasdas",
+      "areas_tematicas": ["dsads", "dsadasda"]
     },
     "carga_horaria": {
-        "presencial_pratica": "",
-        "presencial_teorica": "",
-        "ead_pratica": "",
-        "ead_teorica": ""
+      "presencial_pratica": "",
+      "presencial_teorica": "",
+      "ead_pratica": "",
+      "ead_teorica": ""
     },
     "conteudo": {
-        "ementa?": "0 a 1,5k char",
-        "bibliografia": "50 a 10k char",
-        "procedimentos": "50 a 10k char",
-        "objetivo": "50 a 1k char",
-        "publico_alvo": "10 a 1k char"
+      "ementa?": "0 a 1,5k char",
+      "bibliografia": "50 a 10k char",
+      "procedimentos": "50 a 10k char",
+      "objetivo": "50 a 1k char",
+      "publico_alvo": "10 a 1k char"
     },
     "criterios": {
-        "frequencia_minima": "",
-        "nota_minima": "",
-        "grau_escolaridade": "",
-        "divulgacao_corporativa": true
+      "frequencia_minima": "",
+      "nota_minima": "",
+      "grau_escolaridade": "",
+      "divulgacao_corporativa": true
     }
+  },
+  "professores_curso": {
+    "coordenador_extensão": "",
+    "diretor_unidade": "",
+    "professor_responsavel": {
+      "id": "",
+      "email": "",
+      "telefone": "",
+      "instituicao": "",
+      "titulacao": "",
+      "carga_horaria_individual": ""
+    },
+    "docentes_unicamp": [
+      {
+        "id": "asdasdas",
+        "nome": "sdasdas",
+        "matrticula": "",
+        "titulacao": "",
+        "situacao": "",
+        "unidade": "",
+        "departamento": "",
+        "carga_horaria": ""
+      },
+      {
+        "id": "asdasdas",
+        "nome": "sdasdas",
+        "matrticula": "",
+        "titulacao": "",
+        "situacao": "",
+        "unidade": "",
+        "departamento": "",
+        "carga_horaria": ""
+      }
+    ],
+    "docentes_vinculo": [
+      {
+        "id": "",
+        "nome": "",
+        "matrticula": "",
+        "titulacao": "",
+        "situacao": "",
+        "instituicao": "",
+        "unidade": "",
+        "departamento": "",
+        "funcao": "",
+        "carga_horaria": ""
+      }
+    ],
+    "docentes_sem_vinculo": [
+      {
+        "id": "",
+        "nome": "",
+        "documento_identificacao": {
+          "tipo": "",
+          "documento": ""
+        },
+        "pais_origem": "",
+        "instituicao": "",
+        "titulacao": "",
+        "funcao": "",
+        "carga_horaria": ""
+      }
+    ],
+    "palestrantes": [
+      {
+        "id": "",
+        "nome": "",
+        "tipo_vinculo": "",
+        "nome_palestra": "",
+        "valor": 11.11,
+        "carga_horaria": ""
+      }
+    ],
+    "carga_horaria_total": "",
+    "carga_horaria_curso": ""
+  },
+  "dados_oferecimento": {
+    "divulgacao": {
+      "divulgar_extecamp": false,
+      "explicacao": "0 a 200 char",
+      "host": "",
+      "pagina_facebook": ""
+    },
+    "inscricao": {
+      "local": "",
+      "telefone_secretaria": "",
+      "telefone_informacoes": "",
+      "data_abertura": "",
+      "data_encerramento": "",
+      "modelo": "enum<'Basico', 'Completo'>"
+    },
+    "oferecimento": {
+      "local": "",
+      "uf": "",
+      "cidade": "",
+      "dias_semana_horarios": ["123123", "123122321"],
+      "inicio_oferecimento": "",
+      "encerramento_oferecimento": "",
+      "min_vagas": "",
+      "max_vagas": ""
+    },
+    "criterios": {
+      "tem_criterios": false
+    }
+  },
+  "custos": {
+    "custos_oferecimento": {
+      "fluxo_continuo": true,
+      "planilha": {
+        "professores_hora_aula": 1.11,
+        "professores_outras_atividades": 1.11,
+        "material_consumo": 1.11,
+        "material_permanente_equipamentos": 1.11,
+        "servico_terceiros": 1.11,
+        "outros_custos": 1.11,
+        "aproveitamento_recursos": 1.11,
+        "total": 1.11
+      }
+    },
+    "taxas": {
+      "fixas": 1.11,
+      "variaveis": {
+        "aiu_unidade": {
+          "porcentagem": 1.11,
+          "valor": 1.11
+        },
+        "fundo_extensao_unidade": {
+          "porcentagem": 1.11,
+          "valor": 1.11
+        },
+        "fundo_extensao_unidade_2": {
+          "unidade": "",
+          "porcentagem": 1.11,
+          "valor": 1.11
+        }
+      },
+      "total_fixas_variaveis": 1.11,
+      "subsidios": 1.11,
+      "custo_total": 1.11,
+      "custo_aluno": {
+        "min_vagas": 1,
+        "valor": 1.11
+      }
+    },
+    "forma_pagamento": {
+      "tipo": "",
+      "fonte": "",
+      "taxa_inscricao": 1.11
+    },
+    "condicoes": {
+      "curso_gratuito": true,
+      "a_vista": 1.11,
+      "data_vencimento": "",
+      "parcela_boleto": [
+        {
+          "nro_parcelas": 1,
+          "valor": 1.11,
+          "data_vencimento": ""
+        }
+      ],
+      "cartao_credito": {
+        "max_parcelas": ""
+      },
+      "descontos_especiais": {
+        "porcentagem_desconto_estudantes": 1.11,
+        "opcao_desconto": [
+          {
+            "para": "",
+            "porcentagem_desconto": 1.11
+          }
+        ]
+      },
+      "convenio": {
+        "numero_processo": 1,
+        "nome_empresa": "",
+        "cnpj": "",
+        "tipo": "",
+        "responsavel": "",
+        "cargo": ""
+      },
+      "sem_valor_parcela": true,
+      "numero_parcelas": 2,
+      "outros_recursos": {
+        "valor": 1.11,
+        "nome_empresa": ""
+      },
+      "empresa": {
+        "nome": "",
+        "endereco": "",
+        "bairro": "",
+        "cidade": "",
+        "cep": "",
+        "cnpj": "",
+        "ins_estadual": "",
+        "nome_contato": "",
+        "telefone": "",
+        "fax": "",
+        "email": ""
+      }
+    }
+  }
 }
