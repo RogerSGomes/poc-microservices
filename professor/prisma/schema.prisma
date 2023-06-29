@@ -8,13 +8,17 @@ datasource db {
 }
 
 model Professor {
-  id         String   @id @default(uuid()) @map("professor_id")
-  nome       String
-  email      String   @unique
-  senha      String   @db.VarChar(255)
-  matricula  String   @unique @db.VarChar(10)
-  titulacao  String   @db.VarChar(255)
-  situacao   String   @db.VarChar(255)
-  created_at DateTime @default(dbgenerated("now()"))
-  updated_at DateTime @default(dbgenerated("now()"))
+  id           String   @id @default(uuid()) @map("professor_id")
+  nome         String
+  email        String   @unique
+  telefone     String
+  senha        String   @db.VarChar(255)
+  matricula    String   @unique @db.VarChar(10)
+  instituicao  String
+  unidade      String
+  departamento String
+  titulacao    String   @db.VarChar(255)
+  situacao     String   @db.VarChar(255)
+  created_at   DateTime @default(dbgenerated("now()"))
+  updated_at   DateTime @default(dbgenerated("now()"))
 }

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,11 +8,174 @@ datasource db {
 }
 
 model Curso {
-  id           String   @id @default(uuid()) @map("curso_id")
-  professor_id String
-  alunos       Json[]
-  nome         String
-  duracao      Int
-  created_at   DateTime @default(dbgenerated("now()"))
-  updated_at   DateTime @default(dbgenerated("now()"))
+  id                               String        @id @default(uuid()) @map("curso_id")
+  oferecimento_id                  String        @unique
+  curso_status                     String
+  sigla                            String
+  nome                             String
+  tipo                             String
+  fluxo_continuo                   Boolean
+  disciplina_eletiva               Boolean
+  forma_realizacao                 String
+  plataforma                       String
+  mensagem                         String
+  descricao                        String?       @db.VarChar(10000)
+  unidade                          String
+  departamento                     String
+  palavras_chave                   String[]
+  area_geral                       String
+  areas_tematicas                  String[]
+  carga_horaria_presencial_pratica String?
+  carga_horaria_presencial_teorica String?
+  carga_horaria_ead_pratica        String?
+  carga_horaria_ead_teorica        String?
+  ementa                           String?       @db.VarChar(1500)
+  bibliografia                     String        @db.VarChar(10000)
+  procedimentos                    String        @db.VarChar(10000)
+  objetivo                         String        @db.VarChar(1000)
+  publico_alvo                     String        @db.VarChar(1000)
+  frequencia_minima                Float
+  nota_minima                      Float
+  grau_escolaridade                String
+  divulgacao_corporativa           Boolean
+  diretor                          String
+  coordenador                      String
+  docente_responsavel              String
+  docentes_unicamp                 Json[]
+  docentes_vinculo                 Json[]
+  docentes_sem_vinculo             Json[]
+  palestrantes                     Json[]
+  alunos                           Json[]
+  created_at                       DateTime      @default(dbgenerated("now()"))
+  updated_at                       DateTime      @default(dbgenerated("now()"))
+  oferecimento                     Oferecimento?
+}
+
+model Oferecimento {
+  id                   String              @id @default(uuid()) @map("oferecimento_id")
+  curso_id             String              @unique
+  assinatura_status    AssinaturaStatus
+  divulgar_extecamp    Boolean
+  explicacao           String              @db.VarChar(200)
+  host                 String
+  pagina_facebook      String
+  local                String
+  uf                   String              @db.Char(2)
+  cidade               String
+  dias_semana_horarios String
+  data_inicio          DateTime
+  data_encerramento    DateTime
+  min_vagas            Int
+  max_vagas            Int
+  tem_criterios        Boolean
+  parametros           Json[]
+  documentos_extras    Json[]
+  curso_parceria       Json[]
+  fpag_tipo            String
+  fpag_fonte           String
+  fpag_taxa_inscricao  String
+  created_at           DateTime            @default(dbgenerated("now()"))
+  updated_at           DateTime            @default(dbgenerated("now()"))
+  curso                Curso               @relation(fields: [curso_id], references: [id], onDelete: Cascade)
+  inscricao            Inscricao?
+  custos_oferecimento  CustosOferecimento?
+}
+
+model Inscricao {
+  id                   String          @id @default(uuid()) @map("inscricao_id")
+  oferecimento_id      String          @unique
+  local                String
+  telefone_secretaria  String
+  telefone_informacoes String
+  data_abertura        DateTime
+  data_encerramento    DateTime
+  created_at           DateTime        @default(dbgenerated("now()"))
+  updated_at           DateTime        @default(dbgenerated("now()"))
+  modelo               InscricaoModelo
+  oferecimento         Oferecimento    @relation(fields: [oferecimento_id], references: [id], onDelete: Cascade)
+}
+
+model CustosOferecimento {
+  id                            String                       @id @default(uuid()) @map("custos_oferecimento_id")
+  oferecimento_id               String                       @unique
+  assinatura_status             AssinaturaStatus
+  fluxo_continuo                Boolean
+  professores_hora_aula         Float
+  professores_outras_atividades Float
+  material_consumo              Float
+  material_permanente           Float
+  servico_terceiros             Float
+  outros_custos                 Float
+  aproveitamento_recursos       Float
+  total                         Float
+  created_at                    DateTime                     @default(dbgenerated("now()"))
+  updated_at                    DateTime                     @default(dbgenerated("now()"))
+  oferecimento                  Oferecimento                 @relation(fields: [oferecimento_id], references: [id], onDelete: Cascade)
+  taxas_custos_oferecimento     TaxasCustosOferecimento?
+  condicoes_custos_oferecimento CondicoesCustosOferecimento?
+}
+
+model CondicoesCustosOferecimento {
+  id                              String             @id @default(uuid()) @map("condicoes_custos_oferecimento_id")
+  custos_oferecimento_id          String             @unique
+  curso_gratuito                  Boolean
+  valor_a_vista                   Float
+  valor_a_vista_vencimento        DateTime
+  parcelas_boleto                 Json[]
+  parcelas_cartao_credito         Int
+  porcentagem_desconto_estudantes Float
+  opcao_desconto                  Json[]
+  convenio_numero_processo        String
+  convenio_empresa                String
+  convenio_cnpj                   String
+  convenio_tipo                   String
+  convenio_responsavel            String
+  convenio_responsavel_cargo      String
+  convenio_sem_valor_parcela      Boolean
+  convenio_numero_parcelas        Int?
+  recurso_valor                   Float
+  recurso_empresa                 String
+  empresa_nome                    String
+  empresa_endereco                String
+  empresa_bairro                  String
+  empresa_cidade                  String
+  empresa_cep                     String
+  empresa_cnpj                    String
+  empresa_ins_estadual            String
+  empresa_nome_contato            String
+  empresa_telefone                String
+  empresa_fax                     String
+  empresa_email                   String
+  created_at                      DateTime           @default(dbgenerated("now()"))
+  updated_at                      DateTime           @default(dbgenerated("now()"))
+  custos_oferecimento             CustosOferecimento @relation(fields: [custos_oferecimento_id], references: [id], onDelete: Cascade)
+}
+
+model TaxasCustosOferecimento {
+  id                         String             @id @default(uuid()) @map("taxas_custos_oferecimento_id")
+  custos_oferecimento_id     String             @unique
+  fixas                      Float
+  aiu_unidade_porcentagem    Float
+  aiu_unidade_valor          Float
+  fundo_extencao_unidade     String
+  fundo_extencao_porcentagem Float
+  fundo_extencao_valor       Float
+  total                      Float
+  subsidios                  Float
+  custo_total                Float
+  custo_aluno_min_vagas      Float
+  custo_aluno_valor          Float
+  created_at                 DateTime           @default(dbgenerated("now()"))
+  updated_at                 DateTime           @default(dbgenerated("now()"))
+  custos_oferecimento        CustosOferecimento @relation(fields: [custos_oferecimento_id], references: [id], onDelete: Cascade)
+}
+
+enum InscricaoModelo {
+  Basico
+  Completo
+}
+
+enum AssinaturaStatus {
+  Pendente
+  Assinado
 }

@@ -10,6 +10,7 @@ datasource db {
 model Aluno {
   id                   String   @id @default(uuid()) @map("aluno_id")
   nome                 String   @db.VarChar(255)
+  telefone             String
   email                String   @unique @db.VarChar(255)
   matricula            String   @unique @db.VarChar(10)
   senha                String   @db.VarChar(255)
@@ -27,7 +28,10 @@ model Aluno {
   pais_origem          String   @db.VarChar(255)
   estado_origem        String   @db.VarChar(255)
   cidade_origem        String   @db.VarChar(255)
+  genero               String
+  estado_civil         String
   possui_deficiencia   Boolean
+  data_nascimento      DateTime
   tipo_deficiencia     String?  @db.VarChar(255)
   pais_residencia      String   @db.VarChar(255)
   created_at           DateTime @default(dbgenerated("now()"))
