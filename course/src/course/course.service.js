@@ -26,6 +26,10 @@ class CourseService {
   async createCourse(createCourseDTO) {
     return await this.courseRepository.create(createCourseDTO);
   }
+
+  async asignCoordination(curso_id, asignCoordinationDTO) {
+    return await this.courseRepository.update(curso_id, asignCoordinationDTO);
+  }
 }
 
 module.exports = { CourseService };

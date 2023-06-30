@@ -14,6 +14,11 @@ class CourseRouter {
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateCourse,
     );
+    this.router.post(
+      '/:curso_id/coordination',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleAsignCoordination,
+    );
     this.router.get('/', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleGetAll);
   }
 }

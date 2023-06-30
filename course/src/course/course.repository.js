@@ -33,6 +33,19 @@ class CourseRepository {
     }
   }
 
+  async update(curso_id, data) {
+    try {
+      return await prismaClient.curso.update({
+        where: {
+          id: curso_id,
+        },
+        data,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async count() {
     try {
       return await prismaClient.curso.count();

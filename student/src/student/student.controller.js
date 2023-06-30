@@ -24,7 +24,6 @@ class StudentController {
 
   handleCreateStudent = async (req, res) => {
     const createStudentDTO = new CreateStudentDTO(req.body);
-    return res.send(createStudentDTO);
 
     const createdStudent = await this.studentService.createStudent(createStudentDTO);
     res.status(201).send(createdStudent);

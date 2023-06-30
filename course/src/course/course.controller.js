@@ -1,5 +1,5 @@
 const { CourseService } = require('./course.service');
-const { CreateCourseDTO } = require('./dtos');
+const { CreateCourseDTO, AsignCoordinationDTO } = require('./dtos');
 
 class CourseController {
   constructor() {
@@ -7,14 +7,25 @@ class CourseController {
   }
 
   handleCreateCourse = async (req, res) => {
+    const professor = req.profile;
+
     const createCourseDto = new CreateCourseDTO(req.body);
     const createdCourse = await this.courseService.createCourse({
-      created_by: req.profile.sub,
+      created_by: professor.sub,
       ...createCourseDto,
     });
 
     return res.status(201).send({
       result: createdCourse,
+    });
+  };
+
+  handleAsignCoordination = async (req, res) => {
+    const asignCoordinationDTO = new AsignCoordinationDTO(req.body);
+    const updatedCourse = await this.courseService.asignCoordination(req.params.curso_id, asignCoordinationDTO);
+
+    return res.status(201).send({
+      result: updatedCourse,
     });
   };
 
