@@ -18,8 +18,8 @@ model Curso {
   disciplina_eletiva               Boolean
   forma_realizacao                 String
   plataforma                       String
-  mensagem                         String
-  descricao                        String?       @db.VarChar(10000)
+  mensagem                         String?
+  descricao                        String        @db.VarChar(10000)
   unidade                          String
   departamento                     String
   palavras_chave                   String[]

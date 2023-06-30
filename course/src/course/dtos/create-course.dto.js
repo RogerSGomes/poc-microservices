@@ -9,24 +9,15 @@ class CreateCourseDTO {
 
   dtoSchema() {
     return joi.object({
-      professor_id: joi.string().required().uuid().messages({
-        'string.base': 'O id do professor deve ser uma string.',
-        'string.empty': 'Informe o id do professor.',
-        'any.required': 'Informe o id do professor.',
-        'string.guid': 'O id do professor deve ser um uuid.',
-      }),
-      nome: joi.string().required().min(2).messages({
-        'string.base': 'O nome do curso deve ser uma string.',
-        'string.empty': 'Informe o nome do curso.',
-        'any.required': 'Informe o nome do curso.',
-        'string.min': 'O nome do curso deve conter ao menos dois caracteres.',
-      }),
-      duracao: joi.number().required().integer().greater(0).messages({
-        'number.base': 'A duração do curso deve ser um número.',
-        'any.required': 'Informe a duração do curso.',
-        'number.integer': 'A duração deve ser um número inteiro.',
-        'number.greater': 'A duração do curso deve ser maior que 0.',
-      }),
+      sigla: joi.string().required(),
+      nome: joi.string().required(),
+      tipo: joi.string().required(),
+      fluxo_continuo: joi.boolean().required(),
+      disciplina_eletiva: joi.boolean().required(),
+      forma_realização: joi.string().required(),
+      plataforma: joi.string().required(),
+      mensagem: joi.string().required(),
+      descricao: joi.string().min(50).max(10000),
     });
   }
 
