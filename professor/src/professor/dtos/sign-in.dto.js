@@ -9,11 +9,10 @@ class SignInDTO {
 
   dtoSchema() {
     return joi.object({
-      email: joi.string().required().email().messages({
-        'string.base': 'O email deve ser uma string.',
-        'string.empty': 'Informe o email.',
-        'any.required': 'Informe o email.',
-        'string.email': 'Informe um email válido.',
+      login: joi.string().required().messages({
+        'string.base': 'O login deve ser uma string.',
+        'string.empty': 'Informe o email ou a matricula.',
+        'any.required': 'Informe o email ou a matricula.',
       }),
       senha: joi.string().required().messages({
         'string.empty': 'Informe a senha.',

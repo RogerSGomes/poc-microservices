@@ -1,30 +1,51 @@
 const { prismaClient } = require('../clients/prisma.client');
+const { InternalServerErrorException } = require('../exceptions');
 
 class ProfessorRepository {
   async findAll() {
-    return await prismaClient.professor.findMany();
+    try {
+      return await prismaClient.professor.findMany();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findById(professor_id) {
-    return await prismaClient.professor.findUnique({
-      where: { id: professor_id },
-    });
+    try {
+      return await prismaClient.professor.findUnique({
+        where: { id: professor_id },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findByEmail(email) {
-    return await prismaClient.professor.findUnique({
-      where: { email },
-    });
+    try {
+      return await prismaClient.professor.findUnique({
+        where: { email },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  async create({ nome, email, senha }) {
-    return await prismaClient.professor.create({
-      data: { nome, email, senha },
-    });
+  async create({ confirma_senha, ...createProfessorDTO }) {
+    try {
+      return await prismaClient.professor.create({
+        data: createProfessorDTO,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async count() {
-    return await prismaClient.professor.count();
+    try {
+      return await prismaClient.professor.count();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }
 

@@ -9,18 +9,10 @@ class SignUpDTO {
 
   dtoSchema() {
     return joi.object({
-      nome: joi.string().required().min(2).messages({
-        'string.base': 'O nome deve ser uma string.',
-        'string.empty': 'Informe o nome.',
-        'any.required': 'Informe o nome.',
-        'string.min': 'O nome deve conter pelo menos dois caracteres.',
-      }),
-      email: joi.string().required().email().messages({
-        'string.base': 'O email deve ser uma string.',
-        'string.empty': 'Informe o email.',
-        'any.required': 'Informe o email.',
-        'string.email': 'Informe um email válido.',
-      }),
+      nome: joi.string().required().min(2),
+      telefone: joi.string().required(),
+      email: joi.string().required().email(),
+      matricula: joi.string().required(),
       senha: joi
         .string()
         .required()
@@ -32,18 +24,8 @@ class SignUpDTO {
           }
 
           return value;
-        }, 'strong password validation')
-        .messages({
-          'string.empty': 'Informe a senha.',
-          'any.required': 'Informe a senha.',
-          'any.invalid':
-            'A senha deve conter no mínimo 8 caracteres, incluindo pelo menos 1 letra maiúscula, 1 letra minúscula e 1 número.',
-        }),
-      confirma_senha: joi.string().required().valid(joi.ref('senha')).messages({
-        'string.empty': 'Informe a confirmação da senha.',
-        'any.required': 'Informe a confirmação da senha.',
-        'any.only': 'As senhas não coincidem.',
-      }),
+        }, 'strong password validation'),
+      confirma_senha: joi.string().required().valid(joi.ref('senha')),
     });
   }
 

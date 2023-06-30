@@ -9,36 +9,16 @@ class CreateProfessorDTO {
 
   dtoSchema() {
     return joi.object({
-      nome: joi.string().required().min(2).messages({
-        'string.base': 'O nome deve ser uma string.',
-        'string.empty': 'Informe o nome.',
-        'any.required': 'Informe o nome.',
-        'string.min': 'O nome deve conter pelo menos dois caracteres.',
-      }),
-      email: joi.string().required().email().messages({
-        'string.base': 'O email deve ser uma string.',
-        'string.empty': 'Informe o email.',
-        'any.required': 'Informe o email.',
-        'string.email': 'Informe um email válido.',
-      }),
-      senha: joi
-        .string()
-        .required()
-        .custom((value, helpers) => {
-          const regex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
-
-          if (!value.match(regex)) {
-            return helpers.error('any.invalid');
-          }
-
-          return value;
-        }, 'strong password validation')
-        .messages({
-          'string.empty': 'Informe a senha.',
-          'any.required': 'Informe a senha.',
-          'any.invalid':
-            'A senha deve conter no mínimo 8 caracteres, incluindo pelo menos 1 letra maiúscula, 1 letra minúscula e 1 número.',
-        }),
+      nome: joi.string().required(),
+      email: joi.string().required(),
+      telefone: joi.string().required(),
+      senha: joi.string().required(),
+      matricula: joi.string().required(),
+      instituicao: joi.string().required(),
+      unidade: joi.string().required(),
+      departamento: joi.string().required(),
+      titulacao: joi.string().required(),
+      situacao: joi.string().required(),
     });
   }
 

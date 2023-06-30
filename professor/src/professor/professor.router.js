@@ -9,13 +9,7 @@ class ProfessorRouter {
   }
 
   execute() {
-    this.router.post(
-      `/`,
-      {
-        onRequest: this.authMiddleware.ensureAuthenticated,
-      },
-      this.professorController.handleCreateProfessor,
-    );
+    this.router.post(`/`, this.professorController.handleCreateProfessor);
     this.router.get(
       `/`,
       {
