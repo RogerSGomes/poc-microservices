@@ -9,8 +9,8 @@ datasource db {
 
 model Curso {
   id                               String        @id @default(uuid()) @map("curso_id")
-  oferecimento_id                  String        @unique
-  curso_status                     String
+  oferecimento_id                  String?       @unique
+  curso_status                     String        @default("Pendente")
   sigla                            String
   nome                             String
   tipo                             String
@@ -38,14 +38,15 @@ model Curso {
   nota_minima                      Float
   grau_escolaridade                String
   divulgacao_corporativa           Boolean
-  diretor                          String
-  coordenador                      String
-  docente_responsavel              String
+  diretor                          String?
+  coordenador                      String?
+  docente_responsavel              String?
   docentes_unicamp                 Json[]
   docentes_vinculo                 Json[]
   docentes_sem_vinculo             Json[]
   palestrantes                     Json[]
   alunos                           Json[]
+  created_by                       String
   created_at                       DateTime      @default(dbgenerated("now()"))
   updated_at                       DateTime      @default(dbgenerated("now()"))
   oferecimento                     Oferecimento?

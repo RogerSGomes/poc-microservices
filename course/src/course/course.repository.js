@@ -1,26 +1,44 @@
 const { prismaClient } = require('../clients/prisma.client');
+const { InternalServerErrorException } = require('../exceptions');
 
 class CourseRepository {
   async findAll() {
-    return await prismaClient.curso.findMany();
+    try {
+      return await prismaClient.curso.findMany();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findById(curso_id) {
-    return await prismaClient.curso.findUnique({
-      where: {
-        id: curso_id,
-      },
-    });
+    try {
+      return await prismaClient.curso.findUnique({
+        where: {
+          id: curso_id,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async create(createCourseDTO) {
-    return await prismaClient.curso.create({
-      data: createCourseDTO,
-    });
+    try {
+      return await prismaClient.curso.create({
+        data: createCourseDTO,
+      });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async count() {
-    return await prismaClient.curso.count();
+    try {
+      return await prismaClient.curso.count();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }
 

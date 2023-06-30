@@ -7,8 +7,11 @@ class CourseController {
   }
 
   handleCreateCourse = async (req, res) => {
-    const createCourseDto = new CreateCourseDTO({ professor_id: req.profile.sub, ...req.body }, req.profile.role);
-    const createdCourse = await this.courseService.createCourse(createCourseDto);
+    const createCourseDto = new CreateCourseDTO(req.body);
+    const createdCourse = await this.courseService.createCourse({
+      created_by: req.profile.sub,
+      ...createCourseDto,
+    });
 
     return res.status(201).send({
       result: createdCourse,
