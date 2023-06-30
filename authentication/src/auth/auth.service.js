@@ -1,23 +1,20 @@
 const jwt = require('jsonwebtoken');
 
 class AuthService {
-  async authenticate({ dto, model, role }) {
+  authenticate({ dto, model, role }) {
     const isValidCredentials = model?.senha === dto.senha;
 
-    if (!isValidCredentials) {
-      return {
-        status: 401,
-        error: 'Credenciais incorretas.',
-      };
-    }
-
-    return {
-      access_token: jwt.sign({ sub: model.id, role: role }, process.env.JWT_SECRET),
-    };
+    return !isValidCredentials
+      ? {
+          status: 401,
+          error: 'Credenciais incorretas.',
+        }
+      : {
+          access_token: jwt.sign({ sub: model.id, role }, process.env.JWT_SECRET),
+        };
   }
 
   ensureAuthenticated(token) {
-    console.log(token);
     try {
       return jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {

@@ -20,10 +20,10 @@ class ProfessorRepository {
     }
   }
 
-  async findByEmail(email) {
+  async findByLogin(login) {
     try {
-      return await prismaClient.professor.findUnique({
-        where: { email },
+      return await prismaClient.professor.findFirst({
+        where: { OR: [{ email: login }, { matricula: login }] },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);

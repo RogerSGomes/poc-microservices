@@ -29,24 +29,14 @@ class ProfessorService {
     return professor;
   }
 
-  async getByEmail(email) {
-    const professor = await this.professorRepository.findByEmail(email);
-
-    if (!professor) {
-      throw new NotFoundException('Professor não encontrado.');
-    }
-
-    return professor;
-  }
-
   async signIn(signInDTO) {
-    const professor = await this.professorRepository.findByEmail(signInDTO.email);
+    const professor = await this.professorRepository.findByLogin(signInDTO.login);
 
     return await rmqServer.executeRPC({
       message: { dto: signInDTO, model: professor, role: 'professor' },
       queue: 'authentication_queue',
       replyQueue: 'authenticated_professors_queue',
-      correlationId: signInDTO.email,
+      correlationId: signInDTO.login,
     });
   }
 }
