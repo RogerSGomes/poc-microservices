@@ -6,12 +6,30 @@ const {
   AsignAttachedDTO,
   AsignUnattachedDTO,
   AsignSpeakerDTO,
+  CreateOfferingDTO,
 } = require('./dtos');
 
 class CourseController {
   constructor() {
     this.courseService = new CourseService();
   }
+
+  handleGetAll = async (req, res) => {
+    const { courses, coursesAmount } = await this.courseService.getAll();
+
+    res.status(200).send({
+      result: courses,
+      total: coursesAmount,
+    });
+  };
+
+  handleGetById = async (req, res) => {
+    const course = await this.courseService.getById(req.params.curso_id);
+
+    res.status(200).send({
+      result: course,
+    });
+  };
 
   handleCreateCourse = async (req, res) => {
     const professor = req.profile;
@@ -24,6 +42,19 @@ class CourseController {
 
     return res.status(201).send({
       result: createdCourse,
+    });
+  };
+
+  handleCreateOffering = async (req, res) => {
+    const { curso_id } = req.params;
+    const { inscricao, ...createOfferingDTO } = new CreateOfferingDTO(req.body);
+
+    const createdOffering = await this.courseService.createOffering(curso_id, createOfferingDTO);
+    const createdSubscription = await this.courseService.createSubscription(createdOffering.id, inscricao);
+
+    res.status(201).send({
+      createdOffering,
+      createdSubscription,
     });
   };
 
@@ -69,15 +100,6 @@ class CourseController {
 
     return res.status(200).send({
       result: updatedCourse,
-    });
-  };
-
-  handleGetAll = async (req, res) => {
-    const { courses, coursesAmount } = await this.courseService.getAll();
-
-    res.status(200).send({
-      result: courses,
-      total: coursesAmount,
     });
   };
 }

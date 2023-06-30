@@ -27,6 +27,14 @@ class CourseService {
     return await this.courseRepository.create(createCourseDTO);
   }
 
+  async createOffering(course_id, createOfferingDTO) {
+    return await this.courseRepository.createOffering(course_id, createOfferingDTO);
+  }
+
+  async createSubscription(offering_id, createSubscriptionDTO) {
+    return await this.courseRepository.createSubscription(offering_id, createSubscriptionDTO);
+  }
+
   async asignCoordination(course_id, asignCoordinationDTO) {
     await this.getById(course_id);
 

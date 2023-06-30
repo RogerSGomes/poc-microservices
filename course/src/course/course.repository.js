@@ -53,6 +53,32 @@ class CourseRepository {
       throw new InternalServerErrorException(error);
     }
   }
+
+  async createOffering(course_id, createOfferingDTO) {
+    try {
+      return await prismaClient.oferecimento.create({
+        data: {
+          curso: { connect: { id: course_id } },
+          ...createOfferingDTO,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async createSubscription(offering_id, createSubscriptionDTO) {
+    try {
+      return await prismaClient.inscricao.create({
+        data: {
+          oferecimento: { connect: { id: offering_id } },
+          ...createSubscriptionDTO,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
 }
 
 module.exports = { CourseRepository };

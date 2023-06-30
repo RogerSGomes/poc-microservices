@@ -14,6 +14,11 @@ class CourseRouter {
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateCourse,
     );
+    this.router.post(
+      '/:curso_id/oferecimento',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleCreateOffering,
+    );
     this.router.patch(
       '/:curso_id/coordenacao',
       { onRequest: this.authMiddleware.ensureAuthenticated },
@@ -40,6 +45,11 @@ class CourseRouter {
       this.courseController.handleAsignSpeaker,
     );
     this.router.get('/', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleGetAll);
+    this.router.get(
+      '/:curso_id',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleGetById,
+    );
   }
 }
 

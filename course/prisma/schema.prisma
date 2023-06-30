@@ -55,26 +55,23 @@ model Curso {
 model Oferecimento {
   id                   String              @id @default(uuid()) @map("oferecimento_id")
   curso_id             String              @unique
-  assinatura_status    AssinaturaStatus
+  assinatura_status    AssinaturaStatus    @default(Pendente)
   divulgar_extecamp    Boolean
-  explicacao           String              @db.VarChar(200)
-  host                 String
-  pagina_facebook      String
+  explicacao           String?             @db.VarChar(200)
+  host                 String?
+  pagina_facebook      String?
   local                String
   uf                   String              @db.Char(2)
   cidade               String
-  dias_semana_horarios String
-  data_inicio          DateTime
-  data_encerramento    DateTime
+  dias_semana_horarios String?
+  data_inicio          DateTime?
+  data_encerramento    DateTime?
   min_vagas            Int
   max_vagas            Int
   tem_criterios        Boolean
   parametros           Json[]
   documentos_extras    Json[]
   curso_parceria       Json[]
-  fpag_tipo            String
-  fpag_fonte           String
-  fpag_taxa_inscricao  String
   created_at           DateTime            @default(dbgenerated("now()"))
   updated_at           DateTime            @default(dbgenerated("now()"))
   curso                Curso               @relation(fields: [curso_id], references: [id], onDelete: Cascade)
@@ -87,19 +84,19 @@ model Inscricao {
   oferecimento_id      String          @unique
   local                String
   telefone_secretaria  String
-  telefone_informacoes String
+  telefone_informacoes String?
   data_abertura        DateTime
   data_encerramento    DateTime
   created_at           DateTime        @default(dbgenerated("now()"))
   updated_at           DateTime        @default(dbgenerated("now()"))
-  modelo               InscricaoModelo
+  modelo               InscricaoModelo @default(Basico)
   oferecimento         Oferecimento    @relation(fields: [oferecimento_id], references: [id], onDelete: Cascade)
 }
 
 model CustosOferecimento {
   id                            String                       @id @default(uuid()) @map("custos_oferecimento_id")
   oferecimento_id               String                       @unique
-  assinatura_status             AssinaturaStatus
+  assinatura_status             AssinaturaStatus             @default(Pendente)
   fluxo_continuo                Boolean
   professores_hora_aula         Float
   professores_outras_atividades Float
@@ -109,6 +106,9 @@ model CustosOferecimento {
   outros_custos                 Float
   aproveitamento_recursos       Float
   total                         Float
+  fpag_tipo                     String
+  fpag_fonte                    String
+  fpag_taxa_inscricao           String
   created_at                    DateTime                     @default(dbgenerated("now()"))
   updated_at                    DateTime                     @default(dbgenerated("now()"))
   oferecimento                  Oferecimento                 @relation(fields: [oferecimento_id], references: [id], onDelete: Cascade)
