@@ -24,8 +24,8 @@ class ProfessorRouter {
       },
       this.professorController.handleGetById,
     );
-    this.router.post(`/sign-up`, this.professorController.handleSignUp);
-    this.router.post(`/sign-in`, this.professorController.handleSignIn);
+    this.router.post(`/cadastrar`, this.professorController.handleSignUp);
+    this.router.post(`/entrar`, this.professorController.handleSignIn);
   }
 }
 

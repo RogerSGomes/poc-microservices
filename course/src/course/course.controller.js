@@ -29,6 +29,8 @@ class CourseController {
     });
   };
 
+  handleAsignUnicamp = async (req, res) => {};
+
   handleGetAll = async (req, res) => {
     const { courses, coursesAmount } = await this.courseService.getAll();
 

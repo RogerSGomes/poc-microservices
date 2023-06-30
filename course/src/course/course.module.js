@@ -12,7 +12,7 @@ class CourseModule {
 
         done();
       },
-      { prefix: '/courses' },
+      { prefix: '/cursos' },
     );
   }
 }

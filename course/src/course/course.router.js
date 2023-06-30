@@ -15,9 +15,14 @@ class CourseRouter {
       this.courseController.handleCreateCourse,
     );
     this.router.post(
-      '/:curso_id/coordination',
+      '/:curso_id/coordenacao',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignCoordination,
+    );
+    this.router.post(
+      '/:curso_id/docentes/unicamp',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleAsignUnicamp,
     );
     this.router.get('/', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleGetAll);
   }

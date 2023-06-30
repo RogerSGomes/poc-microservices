@@ -12,7 +12,7 @@ class ProfessorModule {
 
         done();
       },
-      { prefix: '/professors' },
+      { prefix: '/professores' },
     );
   }
 }

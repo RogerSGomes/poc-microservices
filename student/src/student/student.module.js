@@ -12,7 +12,7 @@ class StudentModule {
 
         done();
       },
-      { prefix: '/students' },
+      { prefix: '/alunos' },
     );
   }
 }
