@@ -14,15 +14,30 @@ class CourseRouter {
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateCourse,
     );
-    this.router.post(
+    this.router.patch(
       '/:curso_id/coordenacao',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignCoordination,
     );
-    this.router.post(
+    this.router.patch(
       '/:curso_id/docentes/unicamp',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignUnicamp,
+    );
+    this.router.patch(
+      '/:curso_id/docentes/com-vinculo',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleAsignAttached,
+    );
+    this.router.patch(
+      '/:curso_id/docentes/sem-vinculo',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleAsignUnattached,
+    );
+    this.router.patch(
+      '/:curso_id/palestrantes',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleAsignSpeaker,
     );
     this.router.get('/', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleGetAll);
   }

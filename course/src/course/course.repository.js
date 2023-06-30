@@ -10,11 +10,11 @@ class CourseRepository {
     }
   }
 
-  async findById(curso_id) {
+  async findById(course_id) {
     try {
       return await prismaClient.curso.findUnique({
         where: {
-          id: curso_id,
+          id: course_id,
         },
       });
     } catch (error) {
@@ -33,11 +33,11 @@ class CourseRepository {
     }
   }
 
-  async update(curso_id, data) {
+  async update(course_id, data) {
     try {
       return await prismaClient.curso.update({
         where: {
-          id: curso_id,
+          id: course_id,
         },
         data,
       });
