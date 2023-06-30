@@ -14,11 +14,11 @@ class CreateProfessorDTO {
       telefone: joi.string().required(),
       senha: joi.string().required(),
       matricula: joi.string().required(),
-      instituicao: joi.string().required(),
-      unidade: joi.string().required(),
-      departamento: joi.string().required(),
-      titulacao: joi.string().required(),
-      situacao: joi.string().required(),
+      instituicao: joi.string(),
+      unidade: joi.string(),
+      departamento: joi.string(),
+      titulacao: joi.string(),
+      situacao: joi.string(),
     });
   }
 
