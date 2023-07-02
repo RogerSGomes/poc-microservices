@@ -97,17 +97,14 @@ model CustosOferecimento {
   oferecimento_id               String                       @unique
   assinatura_status             AssinaturaStatus             @default(Pendente)
   fluxo_continuo                Boolean
-  professores_hora_aula         Float
-  professores_outras_atividades Float
-  material_consumo              Float
-  material_permanente           Float
-  servico_terceiros             Float
-  outros_custos                 Float
-  aproveitamento_recursos       Float
-  total                         Float
-  fpag_tipo                     String
-  fpag_fonte                    String
-  fpag_taxa_inscricao           String
+  professores_hora_aula         Float?                       @default(0)
+  professores_outras_atividades Float?                       @default(0)
+  material_consumo              Float?                       @default(0)
+  material_permanente           Float?                       @default(0)
+  servico_terceiros             Float?                       @default(0)
+  outros_custos                 Float?                       @default(0)
+  aproveitamento_recursos       Float?                       @default(0)
+  total                         Float?                       @default(0)
   created_at                    DateTime                     @default(dbgenerated("now()"))
   updated_at                    DateTime                     @default(dbgenerated("now()"))
   oferecimento                  Oferecimento                 @relation(fields: [oferecimento_id], references: [id], onDelete: Cascade)
@@ -118,34 +115,17 @@ model CustosOferecimento {
 model CondicoesCustosOferecimento {
   id                              String             @id @default(uuid()) @map("condicoes_custos_oferecimento_id")
   custos_oferecimento_id          String             @unique
+  forma_pagamento                 Json
   curso_gratuito                  Boolean
-  valor_a_vista                   Float
-  valor_a_vista_vencimento        DateTime
+  valor_a_vista                   Float?             @default(0)
+  valor_a_vista_vencimento        DateTime?
   parcelas_boleto                 Json[]
-  parcelas_cartao_credito         Int
-  porcentagem_desconto_estudantes Float
+  parcelas_cartao_credito         Int?               @default(0)
+  porcentagem_desconto_estudantes Float?             @default(0)
   opcao_desconto                  Json[]
-  convenio_numero_processo        String
-  convenio_empresa                String
-  convenio_cnpj                   String
-  convenio_tipo                   String
-  convenio_responsavel            String
-  convenio_responsavel_cargo      String
-  convenio_sem_valor_parcela      Boolean
-  convenio_numero_parcelas        Int?
-  recurso_valor                   Float
-  recurso_empresa                 String
-  empresa_nome                    String
-  empresa_endereco                String
-  empresa_bairro                  String
-  empresa_cidade                  String
-  empresa_cep                     String
-  empresa_cnpj                    String
-  empresa_ins_estadual            String
-  empresa_nome_contato            String
-  empresa_telefone                String
-  empresa_fax                     String
-  empresa_email                   String
+  convenio                        Json?
+  recurso                         Json?
+  empresa                         Json?
   created_at                      DateTime           @default(dbgenerated("now()"))
   updated_at                      DateTime           @default(dbgenerated("now()"))
   custos_oferecimento             CustosOferecimento @relation(fields: [custos_oferecimento_id], references: [id], onDelete: Cascade)
@@ -154,17 +134,17 @@ model CondicoesCustosOferecimento {
 model TaxasCustosOferecimento {
   id                         String             @id @default(uuid()) @map("taxas_custos_oferecimento_id")
   custos_oferecimento_id     String             @unique
-  fixas                      Float
-  aiu_unidade_porcentagem    Float
-  aiu_unidade_valor          Float
-  fundo_extencao_unidade     String
-  fundo_extencao_porcentagem Float
-  fundo_extencao_valor       Float
-  total                      Float
-  subsidios                  Float
-  custo_total                Float
-  custo_aluno_min_vagas      Float
-  custo_aluno_valor          Float
+  fixas                      Float?             @default(0)
+  aiu_unidade_porcentagem    Float?             @default(0)
+  aiu_unidade_valor          Float?             @default(0)
+  fundo_extencao_unidade     String?
+  fundo_extencao_porcentagem Float?             @default(0)
+  fundo_extencao_valor       Float?             @default(0)
+  total                      Float?             @default(0)
+  subsidios                  Float?             @default(0)
+  custo_total                Float?             @default(0)
+  custo_aluno_min_vagas      Float?             @default(0)
+  custo_aluno_valor          Float?             @default(0)
   created_at                 DateTime           @default(dbgenerated("now()"))
   updated_at                 DateTime           @default(dbgenerated("now()"))
   custos_oferecimento        CustosOferecimento @relation(fields: [custos_oferecimento_id], references: [id], onDelete: Cascade)

@@ -30,6 +30,21 @@ class CourseRouter {
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateOffering,
     );
+    this.router.post(
+      '/:curso_id/custos-oferecimento',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleCreateOfferingCosts,
+    );
+    this.router.post(
+      '/:curso_id/custos-oferecimento/taxas',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleCreateOfferingCostsTax,
+    );
+    this.router.post(
+      '/:curso_id/custos-oferecimento/condicoes',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleCreateOfferingCostsConditions,
+    );
     this.router.patch(
       '/:curso_id/coordenacao',
       { onRequest: this.authMiddleware.ensureAuthenticated },

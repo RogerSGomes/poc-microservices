@@ -2,6 +2,9 @@ const { CourseService } = require('./course.service');
 const {
   CreateCourseDTO,
   CreateOfferingDTO,
+  CreateOfferingCostsDTO,
+  CreateOfferingCostsTaxDTO,
+  CreateOfferingCostsConditionsDTO,
   AsignCoordinationDTO,
   AsignUnicampDTO,
   AsignAttachedDTO,
@@ -32,9 +35,9 @@ class CourseController {
   handleGetCourseOffering = async (req, res) => {
     const { curso_id } = req.params;
 
-    const { oferecimento } = await this.courseService.getById(curso_id);
+    const course = await this.courseService.getById(curso_id);
 
-    return res.status(200).send(oferecimento);
+    return res.status(200).send(course.oferecimento);
   };
 
   handleCreateCourse = async (req, res) => {
@@ -42,8 +45,8 @@ class CourseController {
     const createCourseDto = new CreateCourseDTO(req.body);
 
     const createdCourse = await this.courseService.createCourse({
-      created_by: professor.sub,
       ...createCourseDto,
+      created_by: professor.sub,
     });
 
     return res.status(201).send(createdCourse);
@@ -59,6 +62,45 @@ class CourseController {
     );
 
     res.status(201).send(createdOfferingAndSubscription);
+  };
+
+  handleCreateOfferingCosts = async (req, res) => {
+    const { curso_id } = req.params;
+    const createOfferingCostsDTO = new CreateOfferingCostsDTO(req.body);
+
+    const course = await this.courseService.getById(curso_id);
+    const createdOfferingCosts = await this.courseService.createOfferingCosts(
+      course.oferecimento.id,
+      createOfferingCostsDTO,
+    );
+
+    return res.status(201).send(createdOfferingCosts);
+  };
+
+  handleCreateOfferingCostsTax = async (req, res) => {
+    const { curso_id } = req.params;
+    const createOfferingCostsTaxDTO = new CreateOfferingCostsTaxDTO(req.body);
+
+    const course = await this.courseService.getById(curso_id);
+    const createdOfferingCostsTax = await this.courseService.createOfferingCostsTax(
+      course.oferecimento.custos_oferecimento.id,
+      createOfferingCostsTaxDTO,
+    );
+
+    return res.status(201).send(createdOfferingCostsTax);
+  };
+
+  handleCreateOfferingCostsConditions = async (req, res) => {
+    const { curso_id } = req.params;
+    const createOfferingCostsConditionsDTO = new CreateOfferingCostsConditionsDTO(req.body);
+
+    const course = await this.courseService.getById(curso_id);
+    const createdOfferingCostsConditions = await this.courseService.createOfferingCostsConditions(
+      course.oferecimento.custos_oferecimento.id,
+      createOfferingCostsConditionsDTO,
+    );
+
+    return res.status(201).send(createdOfferingCostsConditions);
   };
 
   handleAsignCoordination = async (req, res) => {

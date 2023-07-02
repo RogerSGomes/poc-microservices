@@ -86,6 +86,45 @@ class CourseRepository {
     }
   }
 
+  async createOfferingCosts(offering_id, createOfferingCostsDTO) {
+    try {
+      return await prismaClient.custosOferecimento.create({
+        data: {
+          oferecimento: { connect: { id: offering_id } },
+          ...createOfferingCostsDTO,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async createOfferingCostsTax(costs_id, createOfferingCostsTaxDTO) {
+    try {
+      return await prismaClient.taxasCustosOferecimento.create({
+        data: {
+          custos_oferecimento: { connect: { id: costs_id } },
+          ...createOfferingCostsTaxDTO,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async createOfferingCostsConditions(costs_id, createOfferingCostsConditionsDTO) {
+    try {
+      return await prismaClient.condicoesCustosOferecimento.create({
+        data: {
+          custos_oferecimento: { connect: { id: costs_id } },
+          ...createOfferingCostsConditionsDTO,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async update(course_id, data) {
     try {
       return await prismaClient.curso.update({
