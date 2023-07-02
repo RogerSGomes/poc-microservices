@@ -20,40 +20,10 @@ class StudentRepository {
     }
   }
 
-  async findByMatricula(matricula) {
+  async findByLogin(login) {
     try {
-      return await prismaClient.aluno.findUnique({
-        where: { matricula },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
-  async findByEmail(email) {
-    try {
-      return await prismaClient.aluno.findUnique({
-        where: { email },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
-  async findByCpf(cpf) {
-    try {
-      return await prismaClient.aluno.findUnique({
-        where: { cpf },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
-  async findByRg(rg_numero) {
-    try {
-      return await prismaClient.aluno.findUnique({
-        where: { rg_numero },
+      return await prismaClient.aluno.findFirst({
+        where: { OR: [{ email: login }, { matricula: login }] },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);

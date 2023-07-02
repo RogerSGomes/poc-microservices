@@ -36,7 +36,7 @@ class RmqServer {
     if (reply.error) {
       throw new Object(reply);
     } else {
-      return reply.message;
+      return reply;
     }
   }
 }

@@ -10,7 +10,8 @@ class StudentRouter {
     this.router.get('/', this.studentController.handleGetAll);
     this.router.get('/:aluno_id', this.studentController.handleGetById);
     this.router.post('/', this.studentController.handleCreateStudent);
-    this.router.post('/sign-up', this.studentController.handleSignUp);
+    this.router.post(`/entrar`, this.studentController.handleSignIn);
+    this.router.post('/cadastrar', this.studentController.handleSignUp);
   }
 }
 
