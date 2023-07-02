@@ -16,6 +16,34 @@ class CourseRepository {
         where: {
           id: course_id,
         },
+        include: {
+          oferecimento: {
+            include: {
+              inscricao: true,
+              custos_oferecimento: {
+                include: { taxas_custos_oferecimento: true, condicoes_custos_oferecimento: true },
+              },
+            },
+          },
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async findOfferingById(offering_id) {
+    try {
+      return await prismaClient.oferecimento.findUnique({
+        where: {
+          id: offering_id,
+        },
+        include: {
+          inscricao: true,
+          custos_oferecimento: {
+            include: { taxas_custos_oferecimento: true, condicoes_custos_oferecimento: true },
+          },
+        },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -26,6 +54,32 @@ class CourseRepository {
     try {
       return await prismaClient.curso.create({
         data: createCourseDTO,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async createOffering(course_id, createOfferingDTO) {
+    try {
+      return await prismaClient.oferecimento.create({
+        data: {
+          curso: { connect: { id: course_id } },
+          ...createOfferingDTO,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async createSubscription(offering_id, createSubscriptionDTO) {
+    try {
+      return await prismaClient.inscricao.create({
+        data: {
+          oferecimento: { connect: { id: offering_id } },
+          ...createSubscriptionDTO,
+        },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -48,36 +102,6 @@ class CourseRepository {
   async count() {
     try {
       return await prismaClient.curso.count();
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
-  async createOfferingAndSubscription(course_id, createOfferingDTO, createSubscriptionDTO) {
-    try {
-      return await prismaClient.inscricao.create({
-        data: {
-          oferecimento: { create: { curso_id: course_id, ...createOfferingDTO } },
-          ...createSubscriptionDTO,
-        },
-        include: { oferecimento: true },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
-  async findOfferingById(offering_id) {
-    try {
-      return await prismaClient.oferecimento.findUnique({
-        where: {
-          id: offering_id,
-        },
-        include: {
-          inscricao: true,
-          custos_oferecimento: true,
-        },
-      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

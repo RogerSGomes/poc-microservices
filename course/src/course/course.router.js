@@ -9,10 +9,21 @@ class CourseRouter {
   }
 
   execute() {
+    this.router.get('/', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleGetAll);
+    this.router.get(
+      '/:curso_id',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleGetById,
+    );
     this.router.post(
       '/',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateCourse,
+    );
+    this.router.get(
+      '/:curso_id/oferecimento',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleGetCourseOffering,
     );
     this.router.post(
       '/:curso_id/oferecimento',
@@ -43,12 +54,6 @@ class CourseRouter {
       '/:curso_id/palestrantes',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignSpeaker,
-    );
-    this.router.get('/', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleGetAll);
-    this.router.get(
-      '/:curso_id',
-      { onRequest: this.authMiddleware.ensureAuthenticated },
-      this.courseController.handleGetById,
     );
   }
 }

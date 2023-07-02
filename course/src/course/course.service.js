@@ -23,22 +23,22 @@ class CourseService {
     return course;
   }
 
+  async getOfferingById(offering_id) {
+    return await this.courseRepository.findOfferingById(offering_id);
+  }
+
   async createCourse(createCourseDTO) {
     return await this.courseRepository.create(createCourseDTO);
   }
 
-  async createOfferingAndSubscription(course_id, createOfferingDTO, createSubscriptionDTO) {
+  async createOfferingAndSubscription(course_id, { inscricao, ...createOfferingDTO }) {
     await this.getById(course_id);
 
-    return await this.courseRepository.createOfferingAndSubscription(
-      course_id,
-      createOfferingDTO,
-      createSubscriptionDTO,
-    );
-  }
+    return await this.courseRepository.createOffering(course_id, createOfferingDTO).then(async createdOffering => {
+      await this.courseRepository.createSubscription(createdOffering.id, inscricao);
 
-  async getOfferingById(offering_id) {
-    return await this.courseRepository.findOfferingById(offering_id);
+      return await this.getOfferingById(createdOffering.id);
+    });
   }
 
   async asignCoordination(course_id, asignCoordinationDTO) {
