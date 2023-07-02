@@ -87,9 +87,9 @@ model Inscricao {
   telefone_informacoes String?
   data_abertura        DateTime
   data_encerramento    DateTime
+  modelo               InscricaoModelo @default(Basico)
   created_at           DateTime        @default(dbgenerated("now()"))
   updated_at           DateTime        @default(dbgenerated("now()"))
-  modelo               InscricaoModelo @default(Basico)
   oferecimento         Oferecimento    @relation(fields: [oferecimento_id], references: [id], onDelete: Cascade)
 }
 

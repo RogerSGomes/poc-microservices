@@ -1,12 +1,12 @@
 const { CourseService } = require('./course.service');
 const {
   CreateCourseDTO,
+  CreateOfferingDTO,
   AsignCoordinationDTO,
   AsignUnicampDTO,
   AsignAttachedDTO,
   AsignUnattachedDTO,
   AsignSpeakerDTO,
-  CreateOfferingDTO,
 } = require('./dtos');
 
 class CourseController {
@@ -32,9 +32,10 @@ class CourseController {
   };
 
   handleCreateCourse = async (req, res) => {
-    const professor = req.profile;
-
+    const professor = await req.profile;
     const createCourseDto = new CreateCourseDTO(req.body);
+
+    console.log(createCourseDto);
     const createdCourse = await this.courseService.createCourse({
       created_by: professor.sub,
       ...createCourseDto,
@@ -49,12 +50,15 @@ class CourseController {
     const { curso_id } = req.params;
     const { inscricao, ...createOfferingDTO } = new CreateOfferingDTO(req.body);
 
-    const createdOffering = await this.courseService.createOffering(curso_id, createOfferingDTO);
-    const createdSubscription = await this.courseService.createSubscription(createdOffering.id, inscricao);
+    const createdOfferingAndSubscription = await this.courseService.createOfferingAndSubscription(
+      curso_id,
+      createOfferingDTO,
+      inscricao,
+    );
+    const offering = await this.courseService.getOfferingById(createdOfferingAndSubscription.oferecimento.id);
 
     res.status(201).send({
-      createdOffering,
-      createdSubscription,
+      result: offering,
     });
   };
 

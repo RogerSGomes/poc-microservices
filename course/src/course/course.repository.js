@@ -28,7 +28,6 @@ class CourseRepository {
         data: createCourseDTO,
       });
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorException(error);
     }
   }
@@ -54,25 +53,29 @@ class CourseRepository {
     }
   }
 
-  async createOffering(course_id, createOfferingDTO) {
+  async createOfferingAndSubscription(course_id, createOfferingDTO, createSubscriptionDTO) {
     try {
-      return await prismaClient.oferecimento.create({
+      return await prismaClient.inscricao.create({
         data: {
-          curso: { connect: { id: course_id } },
-          ...createOfferingDTO,
+          oferecimento: { create: { curso_id: course_id, ...createOfferingDTO } },
+          ...createSubscriptionDTO,
         },
+        include: { oferecimento: true },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async createSubscription(offering_id, createSubscriptionDTO) {
+  async findOfferingById(offering_id) {
     try {
-      return await prismaClient.inscricao.create({
-        data: {
-          oferecimento: { connect: { id: offering_id } },
-          ...createSubscriptionDTO,
+      return await prismaClient.oferecimento.findUnique({
+        where: {
+          id: offering_id,
+        },
+        include: {
+          inscricao: true,
+          custos_oferecimento: true,
         },
       });
     } catch (error) {

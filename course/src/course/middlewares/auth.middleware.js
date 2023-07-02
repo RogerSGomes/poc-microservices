@@ -1,7 +1,7 @@
 const { rmqServer } = require('../../servers/rmq.server');
 
 class AuthMiddleware {
-  async ensureAuthenticated(req, res, next) {
+  async ensureAuthenticated(req, res) {
     const token = extractTokenFromHeaders(req.headers);
 
     const tokenPayload = await rmqServer.executeRPC({
@@ -12,8 +12,6 @@ class AuthMiddleware {
     });
 
     req.profile = tokenPayload;
-
-    next();
   }
 }
 
