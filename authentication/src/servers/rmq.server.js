@@ -1,6 +1,6 @@
 const { connect } = require('amqplib');
 
-const rmqServer = new (class RmqServer {
+class RmqServer {
   async connect(uri) {
     this.connection = await connect(uri);
     this.channel = await this.connection.createChannel();
@@ -39,7 +39,7 @@ const rmqServer = new (class RmqServer {
       return reply.message;
     }
   }
-})();
+}
 
 function replyConsumer(channel, { replyQueue, correlationId }) {
   return new Promise(resolve => {
@@ -56,5 +56,7 @@ function replyConsumer(channel, { replyQueue, correlationId }) {
     );
   });
 }
+
+const rmqServer = new RmqServer();
 
 module.exports = { rmqServer };

@@ -1,5 +1,5 @@
 const { StudentService } = require('./student.service');
-const { CreateStudentDTO } = require('./dtos');
+const { CreateStudentDTO, SignUpDTO } = require('./dtos');
 
 class StudentController {
   constructor() {
@@ -27,6 +27,13 @@ class StudentController {
 
     const createdStudent = await this.studentService.createStudent(createStudentDTO);
     res.status(201).send(createdStudent);
+  };
+
+  handleSignUp = async (req, res) => {
+    const signUpDTO = new SignUpDTO(req.body);
+
+    const createdStudent = await this.studentService.createStudent(signUpDTO);
+    return res.status(201).send(createdStudent);
   };
 }
 

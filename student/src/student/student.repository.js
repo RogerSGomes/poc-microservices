@@ -1,48 +1,82 @@
 const { prismaClient } = require('../clients/prisma.client');
+const { InternalServerErrorException } = require('../exceptions');
 
 class StudentRepository {
   async findAll() {
-    return await prismaClient.aluno.findMany();
+    try {
+      return await prismaClient.aluno.findMany();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findById(aluno_id) {
-    return await prismaClient.aluno.findUnique({
-      where: { id: aluno_id },
-    });
+    try {
+      return await prismaClient.aluno.findUnique({
+        where: { id: aluno_id },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findByMatricula(matricula) {
-    return await prismaClient.aluno.findUnique({
-      where: { matricula },
-    });
+    try {
+      return await prismaClient.aluno.findUnique({
+        where: { matricula },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findByEmail(email) {
-    return await prismaClient.aluno.findUnique({
-      where: { email },
-    });
+    try {
+      return await prismaClient.aluno.findUnique({
+        where: { email },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findByCpf(cpf) {
-    return await prismaClient.aluno.findUnique({
-      where: { cpf },
-    });
+    try {
+      return await prismaClient.aluno.findUnique({
+        where: { cpf },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findByRg(rg_numero) {
-    return await prismaClient.aluno.findUnique({
-      where: { rg_numero },
-    });
+    try {
+      return await prismaClient.aluno.findUnique({
+        where: { rg_numero },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async create({ confirma_senha, ...createAlunoDTO }) {
-    return await prismaClient.aluno.create({
-      data: createAlunoDTO,
-    });
+    try {
+      return await prismaClient.aluno.create({
+        data: createAlunoDTO,
+      });
+    } catch (error) {
+      console.log(error);
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async count() {
-    return await prismaClient.aluno.count();
+    try {
+      return await prismaClient.aluno.count();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }
 
