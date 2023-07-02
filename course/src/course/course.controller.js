@@ -137,6 +137,22 @@ class CourseController {
 
     return res.status(200).send(updatedCourse);
   };
+
+  handleSubscribeStudent = async (req, res) => {
+    const { curso_id } = req.params;
+
+    const subscribedStudent = await this.courseService.subscribeStudent(curso_id, req.profile.sub);
+
+    res.status(200).send(subscribedStudent);
+  };
+
+  handleUnsubscribeStudent = async (req, res) => {
+    const { curso_id } = req.params;
+
+    const unsubscribedStudent = await this.courseService.unsubscribeStudent(curso_id, req.profile.sub);
+
+    res.status(200).send(unsubscribedStudent);
+  };
 }
 
 module.exports = { CourseController };

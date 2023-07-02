@@ -70,6 +70,16 @@ class CourseRouter {
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignSpeaker,
     );
+    this.router.patch(
+      '/:curso_id/inscrever',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleSubscribeStudent,
+    );
+    this.router.delete(
+      '/:curso_id/desinscrever',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleUnsubscribeStudent,
+    );
   }
 }
 

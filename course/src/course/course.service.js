@@ -110,6 +110,39 @@ class CourseService {
       });
     }
   }
+
+  async subscribeStudent(course_id, student_id) {
+    const { alunos } = await this.getById(course_id);
+
+    if (alunos.find(aluno_id => aluno_id === student_id)) {
+      throw new BadRequestException('Este aluno já está inscrito neste curso.');
+    } else {
+      const updated_students = [...alunos, student_id];
+
+      await this.courseRepository.update(course_id, {
+        alunos: updated_students,
+      });
+
+      return updated_students;
+    }
+  }
+
+  async unsubscribeStudent(course_id, student_id) {
+    const { alunos } = await this.getById(course_id);
+    const studentIndex = alunos.findIndex(aluno_id => aluno_id === student_id);
+
+    if (studentIndex < 0) {
+      throw new BadRequestException('Este aluno não está inscrito neste curso.');
+    } else {
+      alunos.splice(studentIndex, 1);
+
+      await this.courseRepository.update(course_id, {
+        alunos,
+      });
+
+      return alunos;
+    }
+  }
 }
 
 module.exports = { CourseService };
