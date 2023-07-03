@@ -35,6 +35,11 @@ class CourseRouter {
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateOffering,
     );
+    this.router.put(
+      '/:course_id/oferecimento',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleUpdateOffering,
+    );
     this.router.post(
       '/:course_id/custos-oferecimento',
       { onRequest: this.authMiddleware.ensureAuthenticated },

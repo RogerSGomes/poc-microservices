@@ -11,6 +11,7 @@ const {
   AsignUnattachedDTO,
   AsignSpeakerDTO,
   UpdateCourseDTO,
+  UpdateOfferingDTO,
   UpdateUnicampDTO,
   UpdateAttachedDTO,
   UpdateUnattachedDTO,
@@ -75,6 +76,17 @@ class CourseController {
     );
 
     return res.status(201).send(createdOfferingAndSubscription);
+  };
+
+  handleUpdateOffering = async (req, res) => {
+    const { course_id } = req.params;
+    const updateOfferingDTO = new UpdateOfferingDTO(req.body);
+
+    const updatedOfferingAndSubscription = await this.courseService.updateOfferingAndSubscription(
+      course_id,
+      updateOfferingDTO,
+    );
+    return res.status(200).send(updatedOfferingAndSubscription);
   };
 
   handleCreateOfferingCosts = async (req, res) => {

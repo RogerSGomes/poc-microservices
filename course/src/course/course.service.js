@@ -43,6 +43,28 @@ class CourseService {
     return await this.courseRepository.findOfferingById(createdOffering.id);
   }
 
+  async updateOfferingAndSubscription(course_id, { inscricao, ...updateOfferingDTO }) {
+    const { oferecimento } = await this.getById(course_id);
+
+    if (updateOfferingDTO) {
+      if (!oferecimento) {
+        throw new BadRequestException('Este curso não possui um oferecimento cadastrado.');
+      } else {
+        await this.courseRepository.updateOffering(oferecimento.id, updateOfferingDTO);
+      }
+    }
+
+    if (inscricao) {
+      if (!oferecimento?.inscricao) {
+        throw new BadRequestException('O oferecimento deste curso não possui uma inscrição cadastrada.');
+      } else {
+        await this.courseRepository.updateSubscription(oferecimento.inscricao.id, inscricao);
+      }
+    }
+
+    return await this.courseRepository.findOfferingById(oferecimento.id);
+  }
+
   async createOfferingCosts(offering_id, createOfferingCostsDTO) {
     return await this.courseRepository.createOfferingCosts(offering_id, createOfferingCostsDTO);
   }
