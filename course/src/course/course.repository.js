@@ -121,6 +121,17 @@ class CourseRepository {
     }
   }
 
+  async updateOfferingCosts(offering_costs_id, updateOfferingCostsDTO) {
+    try {
+      return await prismaClient.custosOferecimento.update({
+        where: { id: offering_costs_id },
+        data: updateOfferingCostsDTO,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async createOfferingCostsTax(costs_id, createOfferingCostsTaxDTO) {
     try {
       return await prismaClient.taxasCustosOferecimento.create({

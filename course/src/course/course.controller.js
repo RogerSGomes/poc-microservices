@@ -42,8 +42,8 @@ class CourseController {
   handleGetCourseOffering = async (req, res) => {
     const { course_id } = req.params;
 
-    const course = await this.courseService.getById(course_id);
-    return res.status(200).send(course.oferecimento);
+    const offering = await this.courseService.getCourseOffering(course_id);
+    return res.status(200).send(offering);
   };
 
   handleCreateCourse = async (req, res) => {
@@ -93,12 +93,7 @@ class CourseController {
     const { course_id } = req.params;
     const createOfferingCostsDTO = new CreateOfferingCostsDTO(req.body);
 
-    const course = await this.courseService.getById(course_id);
-    const createdOfferingCosts = await this.courseService.createOfferingCosts(
-      course.oferecimento.id,
-      createOfferingCostsDTO,
-    );
-
+    const createdOfferingCosts = await this.courseService.createOfferingCosts(course_id, createOfferingCostsDTO);
     return res.status(201).send(createdOfferingCosts);
   };
 
@@ -106,9 +101,8 @@ class CourseController {
     const { course_id } = req.params;
     const createOfferingCostsTaxDTO = new CreateOfferingCostsTaxDTO(req.body);
 
-    const course = await this.courseService.getById(course_id);
     const createdOfferingCostsTax = await this.courseService.createOfferingCostsTax(
-      course.oferecimento.custos_oferecimento.id,
+      course_id,
       createOfferingCostsTaxDTO,
     );
 
@@ -119,9 +113,8 @@ class CourseController {
     const { course_id } = req.params;
     const createOfferingCostsConditionsDTO = new CreateOfferingCostsConditionsDTO(req.body);
 
-    const course = await this.courseService.getById(course_id);
     const createdOfferingCostsConditions = await this.courseService.createOfferingCostsConditions(
-      course.oferecimento.custos_oferecimento.id,
+      course_id,
       createOfferingCostsConditionsDTO,
     );
 

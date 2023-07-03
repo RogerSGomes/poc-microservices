@@ -1,6 +1,7 @@
+const uuid = require('uuid');
+
 const { CourseRepository } = require('./course.repository');
 const { NotFoundException, BadRequestException } = require('../exceptions');
-const uuid = require('uuid');
 
 const { rmqServer } = require('../servers/rmq.server');
 
@@ -26,11 +27,43 @@ class CourseService {
     return course;
   }
 
+  async getCourseOffering(course_id) {
+    const { oferecimento } = await this.getById(course_id);
+
+    if (!oferecimento) {
+      throw new NotFoundException('Este curso não possui um oferecimento cadastrado.');
+    } else {
+      return oferecimento;
+    }
+  }
+
+  async getCourseOfferingSubscription(course_id) {
+    const offering = await this.getCourseOffering(course_id);
+
+    if (!offering.inscricao) {
+      throw new NotFoundException('O oferecimento deste curso não possui uma inscrição cadastrada.');
+    } else {
+      return offering.inscricao;
+    }
+  }
+
+  async getCourseOfferingCosts(course_id) {
+    const offering = await this.getCourseOffering(course_id);
+
+    if (!offering.custos_oferecimento) {
+      throw new NotFoundException('O oferecimento deste curso não possui custos cadastrados.');
+    } else {
+      return offering.custos_oferecimento;
+    }
+  }
+
   async createCourse(createCourseDTO) {
     return await this.courseRepository.create(createCourseDTO);
   }
 
   async updateCourse(course_id, updateCourseDTO) {
+    await this.getById(course_id);
+
     return await this.courseRepository.update(course_id, updateCourseDTO);
   }
 
@@ -40,41 +73,44 @@ class CourseService {
     const createdOffering = await this.courseRepository.createOffering(course_id, createOfferingDTO);
     await this.courseRepository.createSubscription(createdOffering.id, inscricao);
 
-    return await this.courseRepository.findOfferingById(createdOffering.id);
+    return await this.getCourseOffering(createdOffering.id);
   }
 
   async updateOfferingAndSubscription(course_id, { inscricao, ...updateOfferingDTO }) {
-    const { oferecimento } = await this.getById(course_id);
-
     if (updateOfferingDTO) {
-      if (!oferecimento) {
-        throw new BadRequestException('Este curso não possui um oferecimento cadastrado.');
-      } else {
-        await this.courseRepository.updateOffering(oferecimento.id, updateOfferingDTO);
-      }
+      const offering = await this.getCourseOffering(course_id);
+      await this.courseRepository.updateOffering(offering.id, updateOfferingDTO);
     }
 
     if (inscricao) {
-      if (!oferecimento?.inscricao) {
-        throw new BadRequestException('O oferecimento deste curso não possui uma inscrição cadastrada.');
-      } else {
-        await this.courseRepository.updateSubscription(oferecimento.inscricao.id, inscricao);
-      }
+      const offeringSubscription = await this.getCourseOfferingSubscription(course_id);
+      await this.courseRepository.updateSubscription(offeringSubscription.id, inscricao);
     }
 
-    return await this.courseRepository.findOfferingById(oferecimento.id);
+    return await this.getCourseOffering(course_id);
   }
 
-  async createOfferingCosts(offering_id, createOfferingCostsDTO) {
-    return await this.courseRepository.createOfferingCosts(offering_id, createOfferingCostsDTO);
+  async createOfferingCosts(course_id, createOfferingCostsDTO) {
+    const offering = await this.getCourseOffering(course_id);
+    return await this.courseRepository.createOfferingCosts(offering.id, createOfferingCostsDTO);
   }
 
-  async createOfferingCostsTax(costs_id, createOfferingCostsTaxDTO) {
-    return await this.courseRepository.createOfferingCostsTax(costs_id, createOfferingCostsTaxDTO);
+  async updateOfferingCosts(course_id, updateOfferingCostsDTO) {
+    const offeringCosts = await this.getCourseOfferingCosts(course_id);
+    return await this.courseRepository.updateOfferingCosts(offeringCosts.id, updateOfferingCostsDTO);
   }
 
-  async createOfferingCostsConditions(costs_id, createOfferingCostsConditionsDTO) {
-    return await this.courseRepository.createOfferingCostsConditions(costs_id, createOfferingCostsConditionsDTO);
+  async createOfferingCostsTax(course_id, createOfferingCostsTaxDTO) {
+    const offeringCosts = await this.getCourseOfferingCosts(course_id);
+    return await this.courseRepository.createOfferingCostsTax(offeringCosts.id, createOfferingCostsTaxDTO);
+  }
+
+  async createOfferingCostsConditions(course_id, createOfferingCostsConditionsDTO) {
+    const offeringCosts = await this.getCourseOfferingCosts(course_id);
+    return await this.courseRepository.createOfferingCostsConditions(
+      offeringCosts.id,
+      createOfferingCostsConditionsDTO,
+    );
   }
 
   async asignCoordination(course_id, asignCoordinationDTO) {
