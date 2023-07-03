@@ -9,6 +9,7 @@ class UpdateOfferingDTO {
 
   dtoSchema() {
     return joi.object({
+      assinatura_status: joi.string().valid('Pendente', 'Assinado'),
       divulgar_extecamp: joi.boolean(),
       explicacao: joi.string().max(200),
       host: joi.string().uri(),

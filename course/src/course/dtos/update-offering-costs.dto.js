@@ -9,6 +9,7 @@ class UpdateOfferingCostsDTO {
 
   dtoSchema() {
     return joi.object({
+      assinatura_status: joi.string().valid('Pendente', 'Assinado'),
       fluxo_continuo: joi.boolean(),
       professores_hora_aula: joi.number(),
       professores_outras_atividades: joi.number(),
