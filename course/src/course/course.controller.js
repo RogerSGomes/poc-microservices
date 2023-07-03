@@ -141,7 +141,7 @@ class CourseController {
   handleSubscribeStudent = async (req, res) => {
     const { curso_id } = req.params;
 
-    const subscribedStudent = await this.courseService.subscribeStudent(curso_id, req.profile.sub);
+    const subscribedStudent = await this.courseService.subscribeStudent(curso_id, req.profile.sub, req.body);
 
     res.status(200).send(subscribedStudent);
   };

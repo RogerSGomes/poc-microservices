@@ -36,7 +36,17 @@ class StudentRepository {
         data: createAlunoDTO,
       });
     } catch (error) {
-      console.log(error);
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async update(student_id, updateStudentDTO) {
+    try {
+      return await prismaClient.aluno.update({
+        where: { id: student_id },
+        data: updateStudentDTO,
+      });
+    } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }

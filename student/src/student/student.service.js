@@ -32,6 +32,10 @@ class StudentService {
     return await this.studentRepository.create(createStudentDTO);
   }
 
+  async updateStudent(student_id, updateStudentDTO) {
+    return await this.studentRepository.update(student_id, updateStudentDTO);
+  }
+
   async signIn(signInDTO) {
     const student = await this.studentRepository.findByLogin(signInDTO.login);
 

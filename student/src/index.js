@@ -7,6 +7,7 @@ const { dbConnect, dbDisconnect } = require('./clients/prisma.client');
 
 // Application modules
 const { StudentModule } = require('./student/student.module');
+const { StudentConsumer } = require('./student/student.consumer');
 
 async function bootstrap() {
   const app = fastify();
@@ -20,6 +21,7 @@ async function bootstrap() {
 
   // Iniciando módulos
   new StudentModule(app).execute();
+  await new StudentConsumer().execute();
 
   app.listen({ port }, () => {
     console.log(`Application is running at port ${port}`);

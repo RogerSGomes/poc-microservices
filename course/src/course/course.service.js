@@ -1,6 +1,8 @@
 const { CourseRepository } = require('./course.repository');
 const { NotFoundException, BadRequestException } = require('../exceptions');
 
+const { rmqServer } = require('../servers/rmq.server');
+
 class CourseService {
   constructor() {
     this.courseRepository = new CourseRepository();
@@ -111,7 +113,9 @@ class CourseService {
     }
   }
 
-  async subscribeStudent(course_id, student_id) {
+  async subscribeStudent(course_id, student_id, studentDTO) {
+    rmqServer.channel.sendToQueue('update_student_queue', Buffer.from(JSON.stringify({ student_id, dto: studentDTO })));
+
     const { alunos } = await this.getById(course_id);
 
     if (alunos.find(aluno_id => aluno_id === student_id)) {
