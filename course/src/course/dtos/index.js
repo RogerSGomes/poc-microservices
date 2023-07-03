@@ -10,6 +10,9 @@ const { AsignUnattachedDTO } = require('./asign-unattached.dto');
 const { AsignSpeakerDTO } = require('./asign-speaker.dto');
 const { UpdateCourseDTO } = require('./update-course.dto');
 const { UpdateOfferingDTO } = require('./update-offering.dto');
+const { UpdateOfferingCostsDTO } = require('./update-offering-costs.dto');
+const { UpdateOfferingCostsTaxDTO } = require('./update-offering-costs-tax.dto');
+const { UpdateOfferingCostsConditionsDTO } = require('./update-offering-costs-conditions.dto');
 const { UpdateUnicampDTO } = require('./update-unicamp.dto');
 const { UpdateAttachedDTO } = require('./update-attached.dto');
 const { UpdateUnattachedDTO } = require('./update-unattached.dto');
@@ -28,6 +31,9 @@ module.exports = {
   AsignSpeakerDTO,
   UpdateCourseDTO,
   UpdateOfferingDTO,
+  UpdateOfferingCostsDTO,
+  UpdateOfferingCostsTaxDTO,
+  UpdateOfferingCostsConditionsDTO,
   UpdateUnicampDTO,
   UpdateAttachedDTO,
   UpdateUnattachedDTO,

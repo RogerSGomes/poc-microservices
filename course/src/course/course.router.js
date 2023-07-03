@@ -45,15 +45,30 @@ class CourseRouter {
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateOfferingCosts,
     );
+    this.router.put(
+      '/:course_id/custos-oferecimento',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleUpdateOfferingCosts,
+    );
     this.router.post(
       '/:course_id/custos-oferecimento/taxas',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateOfferingCostsTax,
     );
+    this.router.put(
+      '/:course_id/custos-oferecimento/taxas',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleUpdateOfferingCostsTax,
+    );
     this.router.post(
       '/:course_id/custos-oferecimento/condicoes',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateOfferingCostsConditions,
+    );
+    this.router.put(
+      '/:course_id/custos-oferecimento/condicoes',
+      { onRequest: this.authMiddleware.ensureAuthenticated },
+      this.courseController.handleUpdateOfferingCostsConditions,
     );
     this.router.patch(
       '/:course_id/coordenacao',

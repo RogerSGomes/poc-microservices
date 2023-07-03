@@ -57,14 +57,28 @@ class CourseService {
     }
   }
 
-  async createCourse(createCourseDTO) {
-    return await this.courseRepository.create(createCourseDTO);
+  async getCourseOfferingCostsTax(course_id) {
+    const offeringCosts = await this.getCourseOfferingCosts(course_id);
+
+    if (!offeringCosts.taxas_custos_oferecimento) {
+      throw new NotFoundException('As taxas dos custos do oferecimento deste curso não foram cadastradas.');
+    } else {
+      return offeringCosts.taxas_custos_oferecimento;
+    }
   }
 
-  async updateCourse(course_id, updateCourseDTO) {
-    await this.getById(course_id);
+  async getCourseOfferingCostsConditions(course_id) {
+    const offeringCosts = await this.getCourseOfferingCosts(course_id);
 
-    return await this.courseRepository.update(course_id, updateCourseDTO);
+    if (!offeringCosts.condicoes_custos_oferecimento) {
+      throw new NotFoundException('As condições dos custos do oferecimento deste curso não foram cadastradas.');
+    } else {
+      return offeringCosts.condicoes_custos_oferecimento;
+    }
+  }
+
+  async createCourse(createCourseDTO) {
+    return await this.courseRepository.create(createCourseDTO);
   }
 
   async createOfferingAndSubscription(course_id, { inscricao, ...createOfferingDTO }) {
@@ -74,6 +88,30 @@ class CourseService {
     await this.courseRepository.createSubscription(createdOffering.id, inscricao);
 
     return await this.getCourseOffering(createdOffering.id);
+  }
+
+  async createOfferingCosts(course_id, createOfferingCostsDTO) {
+    const offering = await this.getCourseOffering(course_id);
+    return await this.courseRepository.createOfferingCosts(offering.id, createOfferingCostsDTO);
+  }
+
+  async createOfferingCostsTax(course_id, createOfferingCostsTaxDTO) {
+    const offeringCosts = await this.getCourseOfferingCosts(course_id);
+    return await this.courseRepository.createOfferingCostsTax(offeringCosts.id, createOfferingCostsTaxDTO);
+  }
+
+  async createOfferingCostsConditions(course_id, createOfferingCostsConditionsDTO) {
+    const offeringCosts = await this.getCourseOfferingCosts(course_id);
+    return await this.courseRepository.createOfferingCostsConditions(
+      offeringCosts.id,
+      createOfferingCostsConditionsDTO,
+    );
+  }
+
+  async updateCourse(course_id, updateCourseDTO) {
+    await this.getById(course_id);
+
+    return await this.courseRepository.update(course_id, updateCourseDTO);
   }
 
   async updateOfferingAndSubscription(course_id, { inscricao, ...updateOfferingDTO }) {
@@ -90,26 +128,21 @@ class CourseService {
     return await this.getCourseOffering(course_id);
   }
 
-  async createOfferingCosts(course_id, createOfferingCostsDTO) {
-    const offering = await this.getCourseOffering(course_id);
-    return await this.courseRepository.createOfferingCosts(offering.id, createOfferingCostsDTO);
-  }
-
   async updateOfferingCosts(course_id, updateOfferingCostsDTO) {
     const offeringCosts = await this.getCourseOfferingCosts(course_id);
     return await this.courseRepository.updateOfferingCosts(offeringCosts.id, updateOfferingCostsDTO);
   }
 
-  async createOfferingCostsTax(course_id, createOfferingCostsTaxDTO) {
-    const offeringCosts = await this.getCourseOfferingCosts(course_id);
-    return await this.courseRepository.createOfferingCostsTax(offeringCosts.id, createOfferingCostsTaxDTO);
+  async updateOfferingCostsTax(course_id, updateOfferingCostsTaxDTO) {
+    const offeringCostsTax = await this.getCourseOfferingCostsTax(course_id);
+    return await this.courseRepository.updateOfferingCostsTax(offeringCostsTax.id, updateOfferingCostsTaxDTO);
   }
 
-  async createOfferingCostsConditions(course_id, createOfferingCostsConditionsDTO) {
-    const offeringCosts = await this.getCourseOfferingCosts(course_id);
-    return await this.courseRepository.createOfferingCostsConditions(
-      offeringCosts.id,
-      createOfferingCostsConditionsDTO,
+  async updateOfferingCostsConditions(course_id, updateOfferingCostsConditionsDTO) {
+    const offeringCostsConditions = await this.getCourseOfferingCostsConditions(course_id);
+    return await this.courseRepository.updateOfferingCostsConditions(
+      offeringCostsConditions.id,
+      updateOfferingCostsConditionsDTO,
     );
   }
 
@@ -135,21 +168,6 @@ class CourseService {
     }
   }
 
-  async updateUnicamp(course_id, unicamp_id, updateUnicampDTO) {
-    const { docentes_unicamp } = await this.getById(course_id);
-    const unicampIndex = docentes_unicamp.findIndex(docente => docente.id === unicamp_id);
-
-    if (unicampIndex < 0) {
-      throw new BadRequestException('Este professor não está vinculado a este curso.');
-    } else {
-      docentes_unicamp[unicampIndex] = { ...docentes_unicamp[unicampIndex], ...updateUnicampDTO };
-
-      await this.courseRepository.update(course_id, { docentes_unicamp });
-
-      return docentes_unicamp;
-    }
-  }
-
   async asignAttached(course_id, asignAttachedDTO) {
     const { docentes_vinculo } = await this.getById(course_id);
 
@@ -163,21 +181,6 @@ class CourseService {
       });
 
       return updatedAttached;
-    }
-  }
-
-  async updateAttached(course_id, attached_id, updateAttachedDTO) {
-    const { docentes_vinculo } = await this.getById(course_id);
-    const attachedIndex = docentes_vinculo.findIndex(docente => docente.id === attached_id);
-
-    if (attachedIndex < 0) {
-      throw new BadRequestException('Este professor não está vinculado a este curso.');
-    } else {
-      docentes_vinculo[attachedIndex] = { ...docentes_vinculo[attachedIndex], ...updateAttachedDTO };
-
-      await this.courseRepository.update(course_id, { docentes_vinculo });
-
-      return docentes_vinculo;
     }
   }
 
@@ -197,21 +200,6 @@ class CourseService {
     }
   }
 
-  async updateUnattached(course_id, unattached_id, updateUnattachedDTO) {
-    const { docentes_sem_vinculo } = await this.getById(course_id);
-    const unattachedIndex = docentes_sem_vinculo.findIndex(docente => docente.id === unattached_id);
-
-    if (unattachedIndex < 0) {
-      throw new BadRequestException('Este professor não está vinculado a este curso.');
-    } else {
-      docentes_sem_vinculo[unattachedIndex] = { ...docentes_sem_vinculo[unattachedIndex], ...updateUnattachedDTO };
-
-      await this.courseRepository.update(course_id, { docentes_sem_vinculo });
-
-      return docentes_sem_vinculo;
-    }
-  }
-
   async asignSpeaker(course_id, asignSpeakerDTO) {
     const { palestrantes } = await this.getById(course_id);
 
@@ -225,6 +213,51 @@ class CourseService {
       });
 
       return updatedSpeakers;
+    }
+  }
+
+  async updateUnicamp(course_id, unicamp_id, updateUnicampDTO) {
+    const { docentes_unicamp } = await this.getById(course_id);
+    const unicampIndex = docentes_unicamp.findIndex(docente => docente.id === unicamp_id);
+
+    if (unicampIndex < 0) {
+      throw new BadRequestException('Este professor não está vinculado a este curso.');
+    } else {
+      docentes_unicamp[unicampIndex] = { ...docentes_unicamp[unicampIndex], ...updateUnicampDTO };
+
+      await this.courseRepository.update(course_id, { docentes_unicamp });
+
+      return docentes_unicamp;
+    }
+  }
+
+  async updateAttached(course_id, attached_id, updateAttachedDTO) {
+    const { docentes_vinculo } = await this.getById(course_id);
+    const attachedIndex = docentes_vinculo.findIndex(docente => docente.id === attached_id);
+
+    if (attachedIndex < 0) {
+      throw new BadRequestException('Este professor não está vinculado a este curso.');
+    } else {
+      docentes_vinculo[attachedIndex] = { ...docentes_vinculo[attachedIndex], ...updateAttachedDTO };
+
+      await this.courseRepository.update(course_id, { docentes_vinculo });
+
+      return docentes_vinculo;
+    }
+  }
+
+  async updateUnattached(course_id, unattached_id, updateUnattachedDTO) {
+    const { docentes_sem_vinculo } = await this.getById(course_id);
+    const unattachedIndex = docentes_sem_vinculo.findIndex(docente => docente.id === unattached_id);
+
+    if (unattachedIndex < 0) {
+      throw new BadRequestException('Este professor não está vinculado a este curso.');
+    } else {
+      docentes_sem_vinculo[unattachedIndex] = { ...docentes_sem_vinculo[unattachedIndex], ...updateUnattachedDTO };
+
+      await this.courseRepository.update(course_id, { docentes_sem_vinculo });
+
+      return docentes_sem_vinculo;
     }
   }
 

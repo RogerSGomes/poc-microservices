@@ -12,6 +12,9 @@ const {
   AsignSpeakerDTO,
   UpdateCourseDTO,
   UpdateOfferingDTO,
+  UpdateOfferingCostsDTO,
+  UpdateOfferingCostsTaxDTO,
+  UpdateOfferingCostsConditionsDTO,
   UpdateUnicampDTO,
   UpdateAttachedDTO,
   UpdateUnattachedDTO,
@@ -97,6 +100,14 @@ class CourseController {
     return res.status(201).send(createdOfferingCosts);
   };
 
+  handleUpdateOfferingCosts = async (req, res) => {
+    const { course_id } = req.params;
+    const updateOfferingCostsDTO = new UpdateOfferingCostsDTO(req.body);
+
+    const updatedOfferingCosts = await this.courseService.updateOfferingCosts(course_id, updateOfferingCostsDTO);
+    return res.status(200).send(updatedOfferingCosts);
+  };
+
   handleCreateOfferingCostsTax = async (req, res) => {
     const { course_id } = req.params;
     const createOfferingCostsTaxDTO = new CreateOfferingCostsTaxDTO(req.body);
@@ -105,8 +116,18 @@ class CourseController {
       course_id,
       createOfferingCostsTaxDTO,
     );
-
     return res.status(201).send(createdOfferingCostsTax);
+  };
+
+  handleUpdateOfferingCostsTax = async (req, res) => {
+    const { course_id } = req.params;
+    const updateOfferingCostsTaxDTO = new UpdateOfferingCostsTaxDTO(req.body);
+
+    const updatedOfferingCostsTax = await this.courseService.updateOfferingCostsTax(
+      course_id,
+      updateOfferingCostsTaxDTO,
+    );
+    return res.status(200).send(updatedOfferingCostsTax);
   };
 
   handleCreateOfferingCostsConditions = async (req, res) => {
@@ -117,8 +138,18 @@ class CourseController {
       course_id,
       createOfferingCostsConditionsDTO,
     );
-
     return res.status(201).send(createdOfferingCostsConditions);
+  };
+
+  handleUpdateOfferingCostsConditions = async (req, res) => {
+    const { course_id } = req.params;
+    const updateOfferingCostsConditionsDTO = new UpdateOfferingCostsConditionsDTO(req.body);
+
+    const updatedOfferingCostsConditions = await this.courseService.updateOfferingCostsConditions(
+      course_id,
+      updateOfferingCostsConditionsDTO,
+    );
+    return res.status(200).send(updatedOfferingCostsConditions);
   };
 
   handleAsignCoordination = async (req, res) => {

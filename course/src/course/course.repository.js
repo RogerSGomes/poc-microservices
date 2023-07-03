@@ -32,28 +32,23 @@ class CourseRepository {
     }
   }
 
-  async findOfferingById(offering_id) {
+  async create(createCourseDTO) {
     try {
-      return await prismaClient.oferecimento.findUnique({
-        where: {
-          id: offering_id,
-        },
-        include: {
-          inscricao: true,
-          custos_oferecimento: {
-            include: { taxas_custos_oferecimento: true, condicoes_custos_oferecimento: true },
-          },
-        },
+      return await prismaClient.curso.create({
+        data: createCourseDTO,
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async create(createCourseDTO) {
+  async update(course_id, updateCourseDTO) {
     try {
-      return await prismaClient.curso.create({
-        data: createCourseDTO,
+      return await prismaClient.curso.update({
+        where: {
+          id: course_id,
+        },
+        data: updateCourseDTO,
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -145,6 +140,17 @@ class CourseRepository {
     }
   }
 
+  async updateOfferingCostsTax(offering_costs_tax_id, updateOfferingCostsTaxDTO) {
+    try {
+      return await prismaClient.taxasCustosOferecimento.update({
+        where: { id: offering_costs_tax_id },
+        data: updateOfferingCostsTaxDTO,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async createOfferingCostsConditions(costs_id, createOfferingCostsConditionsDTO) {
     try {
       return await prismaClient.condicoesCustosOferecimento.create({
@@ -158,13 +164,11 @@ class CourseRepository {
     }
   }
 
-  async update(course_id, updateCourseDTO) {
+  async updateOfferingCostsConditions(offering_costs_conditions_id, updateOfferingCostsConditionsDTO) {
     try {
-      return await prismaClient.curso.update({
-        where: {
-          id: course_id,
-        },
-        data: updateCourseDTO,
+      return await prismaClient.condicoesCustosOferecimento.update({
+        where: { id: offering_costs_conditions_id },
+        data: updateOfferingCostsConditionsDTO,
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
