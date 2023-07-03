@@ -102,10 +102,7 @@ class CourseService {
 
   async createOfferingCostsConditions(course_id, createOfferingCostsConditionsDTO) {
     const offeringCosts = await this.getCourseOfferingCosts(course_id);
-    return await this.courseRepository.createOfferingCostsConditions(
-      offeringCosts.id,
-      createOfferingCostsConditionsDTO,
-    );
+    return await this.courseRepository.createOfferingCostsConditions(offeringCosts.id, createOfferingCostsConditionsDTO);
   }
 
   async updateCourse(course_id, updateCourseDTO) {
@@ -140,10 +137,7 @@ class CourseService {
 
   async updateOfferingCostsConditions(course_id, updateOfferingCostsConditionsDTO) {
     const offeringCostsConditions = await this.getCourseOfferingCostsConditions(course_id);
-    return await this.courseRepository.updateOfferingCostsConditions(
-      offeringCostsConditions.id,
-      updateOfferingCostsConditionsDTO,
-    );
+    return await this.courseRepository.updateOfferingCostsConditions(offeringCostsConditions.id, updateOfferingCostsConditionsDTO);
   }
 
   async asignCoordination(course_id, asignCoordinationDTO) {
@@ -216,6 +210,12 @@ class CourseService {
     }
   }
 
+  async updateCoordination(course_id, updateCoordinationDTO) {
+    await this.getById(course_id);
+
+    return await this.courseRepository.update(course_id, updateCoordinationDTO);
+  }
+
   async updateUnicamp(course_id, unicamp_id, updateUnicampDTO) {
     const { docentes_unicamp } = await this.getById(course_id);
     const unicampIndex = docentes_unicamp.findIndex(docente => docente.id === unicamp_id);
@@ -283,10 +283,7 @@ class CourseService {
       throw new BadRequestException('Este aluno já está inscrito neste curso.');
     } else {
       // Envia à fila de atualização de alunos a DTO a ser atualizada para o aluno.
-      rmqServer.channel.sendToQueue(
-        'update_student_queue',
-        Buffer.from(JSON.stringify({ student_id, dto: studentDTO })),
-      );
+      rmqServer.channel.sendToQueue('update_student_queue', Buffer.from(JSON.stringify({ student_id, dto: studentDTO })));
 
       const updated_students = [...alunos, student_id];
 

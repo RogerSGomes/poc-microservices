@@ -19,6 +19,7 @@ const {
   UpdateAttachedDTO,
   UpdateUnattachedDTO,
   UpdateSpeakerDTO,
+  UpdateCoordinationDTO,
 } = require('./dtos');
 
 class CourseController {
@@ -132,6 +133,14 @@ class CourseController {
     const asignCoordinationDTO = new AsignCoordinationDTO(req.body);
 
     const updatedCourse = await this.courseService.asignCoordination(course_id, asignCoordinationDTO);
+    return res.status(201).send(updatedCourse);
+  };
+
+  handleUpdateCoordination = async (req, res) => {
+    const { course_id } = req.params;
+    const updateCoordinationDTO = new UpdateCoordinationDTO(req.body);
+
+    const updatedCourse = await this.courseService.updateCoordination(course_id, updateCoordinationDTO);
     return res.status(200).send(updatedCourse);
   };
 
@@ -140,7 +149,7 @@ class CourseController {
     const asignUnicampDTO = new AsignUnicampDTO(req.body);
 
     const updatedCourse = await this.courseService.asignUnicamp(course_id, asignUnicampDTO);
-    return res.status(200).send(updatedCourse);
+    return res.status(201).send(updatedCourse);
   };
 
   handleUpdateUnicamp = async (req, res) => {
@@ -156,7 +165,7 @@ class CourseController {
     const asignAttachedDTO = new AsignAttachedDTO(req.body);
 
     const updatedCourse = await this.courseService.asignAttached(course_id, asignAttachedDTO);
-    return res.status(200).send(updatedCourse);
+    return res.status(201).send(updatedCourse);
   };
 
   handleUpdateAttached = async (req, res) => {
@@ -172,7 +181,7 @@ class CourseController {
     const asignUnattachedDTO = new AsignUnattachedDTO(req.body);
 
     const updatedCourse = await this.courseService.asignUnattached(course_id, asignUnattachedDTO);
-    return res.status(200).send(updatedCourse);
+    return res.status(201).send(updatedCourse);
   };
 
   handleUpdateUnattached = async (req, res) => {
@@ -188,7 +197,7 @@ class CourseController {
     const asignSpeakerDTO = new AsignSpeakerDTO(req.body);
 
     const updatedCourse = await this.courseService.asignSpeaker(course_id, asignSpeakerDTO);
-    return res.status(200).send(updatedCourse);
+    return res.status(201).send(updatedCourse);
   };
 
   handleUpdateSpeaker = async (req, res) => {
@@ -203,7 +212,7 @@ class CourseController {
     const { course_id } = req.params;
 
     const subscribedStudent = await this.courseService.subscribeStudent(course_id, req.profile.sub, req.body);
-    return res.status(200).send(subscribedStudent);
+    return res.status(201).send(subscribedStudent);
   };
 
   handleUnsubscribeStudent = async (req, res) => {

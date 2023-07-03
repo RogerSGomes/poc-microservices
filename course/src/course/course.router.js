@@ -21,16 +21,16 @@ class CourseRouter {
     this.router.put('/:course_id/custos-oferecimento/taxas', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateOfferingCostsTax);
     this.router.post('/:course_id/custos-oferecimento/condicoes', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleCreateOfferingCostsConditions);
     this.router.put('/:course_id/custos-oferecimento/condicoes', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateOfferingCostsConditions);
-    this.router.patch('/:course_id/coordenacao', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignCoordination);
-    this.router.patch('/:course_id/docentes/unicamp', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignUnicamp);
+    this.router.post('/:course_id/coordenacao', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignCoordination);
+    this.router.post('/:course_id/docentes/unicamp', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignUnicamp);
     this.router.put('/:course_id/docentes/unicamp/:unicamp_id', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateUnicamp);
-    this.router.patch('/:course_id/docentes/com-vinculo', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignAttached);
+    this.router.post('/:course_id/docentes/com-vinculo', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignAttached);
     this.router.put('/:course_id/docentes/com-vinculo/:attached_id', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateAttached);
-    this.router.patch('/:course_id/docentes/sem-vinculo', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignUnattached);
+    this.router.post('/:course_id/docentes/sem-vinculo', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignUnattached);
     this.router.put('/:course_id/docentes/sem-vinculo/:unattached_id', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateUnattached);
-    this.router.patch('/:course_id/palestrantes', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignSpeaker);
+    this.router.post('/:course_id/palestrantes', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignSpeaker);
     this.router.put('/:course_id/palestrantes/:speaker_id', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateSpeaker);
-    this.router.patch('/:course_id/inscrever', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleSubscribeStudent);
+    this.router.post('/:course_id/inscrever', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleSubscribeStudent);
     this.router.delete('/:course_id/desinscrever', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUnsubscribeStudent);
   }
 }
