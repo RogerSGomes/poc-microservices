@@ -167,6 +167,13 @@ class CourseController {
     return res.status(200).send(updatedCourse);
   };
 
+  handleDeleteUnicamp = async (req, res) => {
+    const { course_id, unicamp_id } = req.params;
+
+    const deletedResult = await this.courseService.deleteUnicamp(course_id, unicamp_id);
+    return res.status(200).send(deletedResult);
+  };
+
   handleAsignAttached = async (req, res) => {
     const { course_id } = req.params;
     const asignAttachedDTO = new AsignAttachedDTO(req.body);
@@ -181,6 +188,13 @@ class CourseController {
 
     const updatedCourse = await this.courseService.updateAttached(course_id, attached_id, updateAttachedDTO);
     return res.status(200).send(updatedCourse);
+  };
+
+  handleDeleteAttached = async (req, res) => {
+    const { course_id, attached_id } = req.params;
+
+    const deletedResult = await this.courseService.deleteAttached(course_id, attached_id);
+    return res.status(200).send(deletedResult);
   };
 
   handleAsignUnattached = async (req, res) => {
@@ -199,6 +213,13 @@ class CourseController {
     return res.status(200).send(updatedCourse);
   };
 
+  handleDeleteUnattached = async (req, res) => {
+    const { course_id, unattached_id } = req.params;
+
+    const deletedResult = await this.courseService.deleteUnattached(course_id, unattached_id);
+    return res.status(200).send(deletedResult);
+  };
+
   handleAsignSpeaker = async (req, res) => {
     const { course_id } = req.params;
     const asignSpeakerDTO = new AsignSpeakerDTO(req.body);
@@ -213,6 +234,13 @@ class CourseController {
 
     const updatedCourse = await this.courseService.updateSpeaker(course_id, speaker_id, updateSpeakerDTO);
     return res.status(200).send(updatedCourse);
+  };
+
+  handleDeleteSpeaker = async (req, res) => {
+    const { course_id, speaker_id } = req.params;
+
+    const deletedResult = await this.courseService.deleteSpeaker(course_id, speaker_id);
+    return res.status(200).send(deletedResult);
   };
 
   handleSubscribeStudent = async (req, res) => {

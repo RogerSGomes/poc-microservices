@@ -282,6 +282,50 @@ class CourseService {
     return await this.courseRepository.delete(course_id);
   }
 
+  async deleteUnicamp(course_id, unicamp_id) {
+    const { docentes_unicamp } = await this.getById(course_id);
+
+    const unicampIndex = docentes_unicamp.findIndex(docente => docente.id === unicamp_id);
+    docentes_unicamp.splice(unicampIndex, 1);
+
+    await this.courseRepository.update(course_id, { docentes_unicamp });
+
+    return docentes_unicamp;
+  }
+
+  async deleteAttached(course_id, attached_id) {
+    const { docentes_vinculo } = await this.getById(course_id);
+
+    const attachedIndex = docentes_vinculo.findIndex(docente => docente.id === attached_id);
+    docentes_vinculo.splice(attachedIndex, 1);
+
+    await this.courseRepository.update(course_id, { docentes_vinculo });
+
+    return docentes_vinculo;
+  }
+
+  async deleteUnattached(course_id, unattached_id) {
+    const { docentes_sem_vinculo } = await this.getById(course_id);
+
+    const unattachedIndex = docentes_sem_vinculo.findIndex(docente => docente.id === unattached_id);
+    docentes_sem_vinculo.splice(unattachedIndex, 1);
+
+    await this.courseRepository.update(course_id, { docentes_sem_vinculo });
+
+    return docentes_sem_vinculo;
+  }
+
+  async deleteSpeaker(course_id, speaker_id) {
+    const { palestrantes } = await this.getById(course_id);
+
+    const speakerIndex = palestrantes.findIndex(speaker => speaker.id === speaker_id);
+    palestrantes.splice(speakerIndex, 1);
+
+    await this.courseRepository.update(course_id, { palestrantes });
+
+    return palestrantes;
+  }
+
   async subscribeStudent(course_id, student_id, studentDTO) {
     const { alunos } = await this.getById(course_id);
 
