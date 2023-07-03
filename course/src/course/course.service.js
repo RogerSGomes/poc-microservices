@@ -1,5 +1,6 @@
 const { CourseRepository } = require('./course.repository');
 const { NotFoundException, BadRequestException } = require('../exceptions');
+const uuid = require('uuid');
 
 const { rmqServer } = require('../servers/rmq.server');
 
@@ -62,11 +63,13 @@ class CourseService {
     if (docentes_unicamp.find(docente => asignUnicampDTO.id === docente.id)) {
       throw new BadRequestException('Este professor já está vinculado a este curso.');
     } else {
-      const updated_docentes_unicamp = [...docentes_unicamp, asignUnicampDTO];
+      const updatedUnicamp = [...docentes_unicamp, asignUnicampDTO];
 
-      return await this.courseRepository.update(course_id, {
-        docentes_unicamp: updated_docentes_unicamp,
+      await this.courseRepository.update(course_id, {
+        docentes_unicamp: updatedUnicamp,
       });
+
+      return updatedUnicamp;
     }
   }
 
@@ -76,11 +79,13 @@ class CourseService {
     if (docentes_vinculo.find(docente => asignAttachedDTO.id === docente.id)) {
       throw new BadRequestException('Este professor já está vinculado a este curso.');
     } else {
-      const updated_docentes_vinculo = [...docentes_vinculo, asignAttachedDTO];
+      const updatedAttached = [...docentes_vinculo, asignAttachedDTO];
 
-      return await this.courseRepository.update(course_id, {
-        docentes_vinculo: updated_docentes_vinculo,
+      await this.courseRepository.update(course_id, {
+        docentes_vinculo: updatedAttached,
       });
+
+      return updatedAttached;
     }
   }
 
@@ -90,11 +95,13 @@ class CourseService {
     if (docentes_sem_vinculo.find(docente => asignUnattachedDTO.nome === docente.nome)) {
       throw new BadRequestException('Este professor já está vinculado a este curso.');
     } else {
-      const updated_docentes_sem_vinculo = [...docentes_sem_vinculo, asignUnattachedDTO];
+      const updatedUnattached = [...docentes_sem_vinculo, { id: uuid.v4(), ...asignUnattachedDTO }];
 
-      return await this.courseRepository.update(course_id, {
-        docentes_sem_vinculo: updated_docentes_sem_vinculo,
+      await this.courseRepository.update(course_id, {
+        docentes_sem_vinculo: updatedUnattached,
       });
+
+      return updatedUnattached;
     }
   }
 
@@ -104,22 +111,28 @@ class CourseService {
     if (palestrantes.find(palestrante => asignSpeakerDTO.nome === palestrante.nome)) {
       throw new BadRequestException('Este palestrante já está vinculado a este curso.');
     } else {
-      const updated_palestrantes = [...palestrantes, asignSpeakerDTO];
+      const updatedSpeakers = [...palestrantes, { id: uuid.v4(), ...asignSpeakerDTO }];
 
-      return await this.courseRepository.update(course_id, {
-        palestrantes: updated_palestrantes,
+      await this.courseRepository.update(course_id, {
+        palestrantes: updatedSpeakers,
       });
+
+      return updatedSpeakers;
     }
   }
 
   async subscribeStudent(course_id, student_id, studentDTO) {
-    rmqServer.channel.sendToQueue('update_student_queue', Buffer.from(JSON.stringify({ student_id, dto: studentDTO })));
-
     const { alunos } = await this.getById(course_id);
 
     if (alunos.find(aluno_id => aluno_id === student_id)) {
       throw new BadRequestException('Este aluno já está inscrito neste curso.');
     } else {
+      // Envia à fila de atualização de alunos a DTO a ser atualizada para o aluno.
+      rmqServer.channel.sendToQueue(
+        'update_student_queue',
+        Buffer.from(JSON.stringify({ student_id, dto: studentDTO })),
+      );
+
       const updated_students = [...alunos, student_id];
 
       await this.courseRepository.update(course_id, {
