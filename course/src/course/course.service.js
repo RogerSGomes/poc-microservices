@@ -30,6 +30,10 @@ class CourseService {
     return await this.courseRepository.create(createCourseDTO);
   }
 
+  async updateCourse(course_id, updateCourseDTO) {
+    return await this.courseRepository.update(course_id, updateCourseDTO);
+  }
+
   async createOfferingAndSubscription(course_id, { inscricao, ...createOfferingDTO }) {
     await this.getById(course_id);
 

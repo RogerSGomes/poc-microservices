@@ -125,13 +125,13 @@ class CourseRepository {
     }
   }
 
-  async update(course_id, data) {
+  async update(course_id, updateCourseDTO) {
     try {
       return await prismaClient.curso.update({
         where: {
           id: course_id,
         },
-        data,
+        data: updateCourseDTO,
       });
     } catch (error) {
       throw new InternalServerErrorException(error);

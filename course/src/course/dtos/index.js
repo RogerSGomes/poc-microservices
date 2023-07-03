@@ -8,6 +8,7 @@ const { AsignUnicampDTO } = require('./asign-unicamp.dto');
 const { AsignAttachedDTO } = require('./asign-attached.dto');
 const { AsignUnattachedDTO } = require('./asign-unattached.dto');
 const { AsignSpeakerDTO } = require('./asign-speaker.dto');
+const { UpdateCourseDTO } = require('./update-course.dto');
 const { UpdateUnicampDTO } = require('./update-unicamp.dto');
 const { UpdateAttachedDTO } = require('./update-attached.dto');
 const { UpdateUnattachedDTO } = require('./update-unattached.dto');
@@ -24,6 +25,7 @@ module.exports = {
   AsignAttachedDTO,
   AsignUnattachedDTO,
   AsignSpeakerDTO,
+  UpdateCourseDTO,
   UpdateUnicampDTO,
   UpdateAttachedDTO,
   UpdateUnattachedDTO,
