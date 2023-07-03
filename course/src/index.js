@@ -14,6 +14,10 @@ async function bootstrap() {
 
   app.getDefaultJsonParser();
 
+  app.get('/', (req, res) => {
+    req.routerPath;
+  });
+
   // Iniciando clients da aplicação
   await dbConnect();
   await rmqServer.connect(process.env.RABBITMQ_URI);
