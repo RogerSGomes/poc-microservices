@@ -73,6 +73,21 @@ class CourseService {
     }
   }
 
+  async updateUnicamp(course_id, unicamp_id, updateUnicampDTO) {
+    const { docentes_unicamp } = await this.getById(course_id);
+    const unicampIndex = docentes_unicamp.findIndex(docente => docente.id === unicamp_id);
+
+    if (unicampIndex < 0) {
+      throw new BadRequestException('Este professor não está vinculado a este curso.');
+    } else {
+      docentes_unicamp[unicampIndex] = { ...docentes_unicamp[unicampIndex], ...updateUnicampDTO };
+
+      await this.courseRepository.update(course_id, { docentes_unicamp });
+
+      return docentes_unicamp;
+    }
+  }
+
   async asignAttached(course_id, asignAttachedDTO) {
     const { docentes_vinculo } = await this.getById(course_id);
 
@@ -86,6 +101,21 @@ class CourseService {
       });
 
       return updatedAttached;
+    }
+  }
+
+  async updateAttached(course_id, attached_id, updateAttachedDTO) {
+    const { docentes_vinculo } = await this.getById(course_id);
+    const attachedIndex = docentes_vinculo.findIndex(docente => docente.id === attached_id);
+
+    if (attachedIndex < 0) {
+      throw new BadRequestException('Este professor não está vinculado a este curso.');
+    } else {
+      docentes_vinculo[attachedIndex] = { ...docentes_vinculo[attachedIndex], ...updateAttachedDTO };
+
+      await this.courseRepository.update(course_id, { docentes_vinculo });
+
+      return docentes_vinculo;
     }
   }
 
@@ -105,6 +135,21 @@ class CourseService {
     }
   }
 
+  async updateUnattached(course_id, unattached_id, updateUnattachedDTO) {
+    const { docentes_sem_vinculo } = await this.getById(course_id);
+    const unattachedIndex = docentes_sem_vinculo.findIndex(docente => docente.id === unattached_id);
+
+    if (unattachedIndex < 0) {
+      throw new BadRequestException('Este professor não está vinculado a este curso.');
+    } else {
+      docentes_sem_vinculo[unattachedIndex] = { ...docentes_sem_vinculo[unattachedIndex], ...updateUnattachedDTO };
+
+      await this.courseRepository.update(course_id, { docentes_sem_vinculo });
+
+      return docentes_sem_vinculo;
+    }
+  }
+
   async asignSpeaker(course_id, asignSpeakerDTO) {
     const { palestrantes } = await this.getById(course_id);
 
@@ -118,6 +163,21 @@ class CourseService {
       });
 
       return updatedSpeakers;
+    }
+  }
+
+  async updateSpeaker(course_id, speaker_id, updateSpeakerDTO) {
+    const { palestrantes } = await this.getById(course_id);
+    const speakerIndex = palestrantes.findIndex(speaker => speaker.id === speaker_id);
+
+    if (speakerIndex < 0) {
+      throw new BadRequestException('Este palestrante não está vinculado a este curso.');
+    } else {
+      palestrantes[speakerIndex] = { ...palestrantes[speakerIndex], ...updateSpeakerDTO };
+
+      await this.courseRepository.update(course_id, { palestrantes });
+
+      return palestrantes;
     }
   }
 

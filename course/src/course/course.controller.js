@@ -10,6 +10,10 @@ const {
   AsignAttachedDTO,
   AsignUnattachedDTO,
   AsignSpeakerDTO,
+  UpdateUnicampDTO,
+  UpdateAttachedDTO,
+  UpdateUnattachedDTO,
+  UpdateSpeakerDTO,
 } = require('./dtos');
 
 class CourseController {
@@ -119,11 +123,27 @@ class CourseController {
     return res.status(200).send(updatedCourse);
   };
 
+  handleUpdateUnicamp = async (req, res) => {
+    const { course_id, unicamp_id } = req.params;
+    const updateUnicampDTO = new UpdateUnicampDTO(req.body);
+
+    const updatedCourse = await this.courseService.updateUnicamp(course_id, unicamp_id, updateUnicampDTO);
+    return res.status(200).send(updatedCourse);
+  };
+
   handleAsignAttached = async (req, res) => {
     const { course_id } = req.params;
     const asignAttachedDTO = new AsignAttachedDTO(req.body);
 
     const updatedCourse = await this.courseService.asignAttached(course_id, asignAttachedDTO);
+    return res.status(200).send(updatedCourse);
+  };
+
+  handleUpdateAttached = async (req, res) => {
+    const { course_id, attached_id } = req.params;
+    const updateAttachedDTO = new UpdateAttachedDTO(req.body);
+
+    const updatedCourse = await this.courseService.updateAttached(course_id, attached_id, updateAttachedDTO);
     return res.status(200).send(updatedCourse);
   };
 
@@ -135,11 +155,27 @@ class CourseController {
     return res.status(200).send(updatedCourse);
   };
 
+  handleUpdateUnattached = async (req, res) => {
+    const { course_id, unattached_id } = req.params;
+    const updateUnattachedDTO = new UpdateUnattachedDTO(req.body);
+
+    const updatedCourse = await this.courseService.updateUnattached(course_id, unattached_id, updateUnattachedDTO);
+    return res.status(200).send(updatedCourse);
+  };
+
   handleAsignSpeaker = async (req, res) => {
     const { course_id } = req.params;
     const asignSpeakerDTO = new AsignSpeakerDTO(req.body);
 
     const updatedCourse = await this.courseService.asignSpeaker(course_id, asignSpeakerDTO);
+    return res.status(200).send(updatedCourse);
+  };
+
+  handleUpdateSpeaker = async (req, res) => {
+    const { course_id, speaker_id } = req.params;
+    const updateSpeakerDTO = new UpdateSpeakerDTO(req.body);
+
+    const updatedCourse = await this.courseService.updateSpeaker(course_id, speaker_id, updateSpeakerDTO);
     return res.status(200).send(updatedCourse);
   };
 
