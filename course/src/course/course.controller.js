@@ -63,6 +63,13 @@ class CourseController {
     return res.status(200).send(updatedCourse);
   };
 
+  handleDeleteCourse = async (req, res) => {
+    const { course_id } = req.params;
+
+    const deletedCourse = await this.courseService.deleteCourse(course_id);
+    return res.status(200).send(deletedCourse);
+  };
+
   handleCreateOffering = async (req, res) => {
     const { course_id } = req.params;
     const createOfferingDTO = new CreateOfferingDTO(req.body);

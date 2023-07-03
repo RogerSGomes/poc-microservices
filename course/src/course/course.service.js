@@ -20,7 +20,7 @@ class CourseService {
   async getById(course_id) {
     const course = await this.courseRepository.findById(course_id);
 
-    if (!course) {
+    if (course === null) {
       throw new NotFoundException('Curso não encontrado.');
     }
 
@@ -30,7 +30,7 @@ class CourseService {
   async getCourseOffering(course_id) {
     const { oferecimento } = await this.getById(course_id);
 
-    if (!oferecimento) {
+    if (oferecimento === null) {
       throw new NotFoundException('Este curso não possui um oferecimento cadastrado.');
     } else {
       return oferecimento;
@@ -40,7 +40,7 @@ class CourseService {
   async getCourseOfferingSubscription(course_id) {
     const offering = await this.getCourseOffering(course_id);
 
-    if (!offering.inscricao) {
+    if (offering.inscricao === null) {
       throw new NotFoundException('O oferecimento deste curso não possui uma inscrição cadastrada.');
     } else {
       return offering.inscricao;
@@ -50,7 +50,7 @@ class CourseService {
   async getCourseOfferingCosts(course_id) {
     const offering = await this.getCourseOffering(course_id);
 
-    if (!offering.custos_oferecimento) {
+    if (offering.custos_oferecimento === null) {
       throw new NotFoundException('O oferecimento deste curso não possui custos cadastrados.');
     } else {
       return offering.custos_oferecimento;
@@ -60,7 +60,7 @@ class CourseService {
   async getCourseOfferingCostsTax(course_id) {
     const offeringCosts = await this.getCourseOfferingCosts(course_id);
 
-    if (!offeringCosts.taxas_custos_oferecimento) {
+    if (offeringCosts.taxas_custos_oferecimento === null) {
       throw new NotFoundException('As taxas dos custos do oferecimento deste curso não foram cadastradas.');
     } else {
       return offeringCosts.taxas_custos_oferecimento;
@@ -70,7 +70,7 @@ class CourseService {
   async getCourseOfferingCostsConditions(course_id) {
     const offeringCosts = await this.getCourseOfferingCosts(course_id);
 
-    if (!offeringCosts.condicoes_custos_oferecimento) {
+    if (offeringCosts.condicoes_custos_oferecimento === null) {
       throw new NotFoundException('As condições dos custos do oferecimento deste curso não foram cadastradas.');
     } else {
       return offeringCosts.condicoes_custos_oferecimento;
@@ -87,7 +87,7 @@ class CourseService {
     const createdOffering = await this.courseRepository.createOffering(course_id, createOfferingDTO);
     await this.courseRepository.createSubscription(createdOffering.id, inscricao);
 
-    return await this.getCourseOffering(createdOffering.id);
+    return await this.getCourseOffering(course_id);
   }
 
   async createOfferingCosts(course_id, createOfferingCostsDTO) {
@@ -274,6 +274,12 @@ class CourseService {
 
       return palestrantes;
     }
+  }
+
+  async deleteCourse(course_id) {
+    await this.getById(course_id);
+
+    return await this.courseRepository.delete(course_id);
   }
 
   async subscribeStudent(course_id, student_id, studentDTO) {

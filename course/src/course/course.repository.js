@@ -55,6 +55,18 @@ class CourseRepository {
     }
   }
 
+  async delete(course_id) {
+    try {
+      return await prismaClient.curso.delete({
+        where: {
+          id: course_id,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async createOffering(course_id, createOfferingDTO) {
     try {
       return await prismaClient.oferecimento.create({

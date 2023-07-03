@@ -13,6 +13,7 @@ class CourseRouter {
     this.router.post('/', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleCreateCourse);
     this.router.get('/:course_id', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleGetById);
     this.router.put('/:course_id', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateCourse);
+    this.router.delete('/:course_id', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleDeleteCourse);
     this.router.post('/:course_id/oferecimento', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleCreateOffering);
     this.router.put('/:course_id/oferecimento', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateOffering);
     this.router.post('/:course_id/custos-oferecimento', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleCreateOfferingCosts);
@@ -22,6 +23,7 @@ class CourseRouter {
     this.router.post('/:course_id/custos-oferecimento/condicoes', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleCreateOfferingCostsConditions);
     this.router.put('/:course_id/custos-oferecimento/condicoes', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateOfferingCostsConditions);
     this.router.post('/:course_id/coordenacao', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignCoordination);
+    this.router.put('/:course_id/coordenacao', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateCoordination);
     this.router.post('/:course_id/docentes/unicamp', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignUnicamp);
     this.router.put('/:course_id/docentes/unicamp/:unicamp_id', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleUpdateUnicamp);
     this.router.post('/:course_id/docentes/com-vinculo', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleAsignAttached);
