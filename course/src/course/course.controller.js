@@ -20,23 +20,23 @@ class CourseController {
   handleGetAll = async (req, res) => {
     const { courses, coursesAmount } = await this.courseService.getAll();
 
-    res.status(200).send({
+    return res.status(200).send({
       result: courses,
       total: coursesAmount,
     });
   };
 
   handleGetById = async (req, res) => {
-    const course = await this.courseService.getById(req.params.curso_id);
+    const { course_id } = req.params;
 
-    res.status(200).send(course);
+    const course = await this.courseService.getById(course_id);
+    return res.status(200).send(course);
   };
 
   handleGetCourseOffering = async (req, res) => {
-    const { curso_id } = req.params;
+    const { course_id } = req.params;
 
-    const course = await this.courseService.getById(curso_id);
-
+    const course = await this.courseService.getById(course_id);
     return res.status(200).send(course.oferecimento);
   };
 
@@ -53,22 +53,22 @@ class CourseController {
   };
 
   handleCreateOffering = async (req, res) => {
-    const { curso_id } = req.params;
+    const { course_id } = req.params;
     const createOfferingDTO = new CreateOfferingDTO(req.body);
 
     const createdOfferingAndSubscription = await this.courseService.createOfferingAndSubscription(
-      curso_id,
+      course_id,
       createOfferingDTO,
     );
 
-    res.status(201).send(createdOfferingAndSubscription);
+    return res.status(201).send(createdOfferingAndSubscription);
   };
 
   handleCreateOfferingCosts = async (req, res) => {
-    const { curso_id } = req.params;
+    const { course_id } = req.params;
     const createOfferingCostsDTO = new CreateOfferingCostsDTO(req.body);
 
-    const course = await this.courseService.getById(curso_id);
+    const course = await this.courseService.getById(course_id);
     const createdOfferingCosts = await this.courseService.createOfferingCosts(
       course.oferecimento.id,
       createOfferingCostsDTO,
@@ -78,10 +78,10 @@ class CourseController {
   };
 
   handleCreateOfferingCostsTax = async (req, res) => {
-    const { curso_id } = req.params;
+    const { course_id } = req.params;
     const createOfferingCostsTaxDTO = new CreateOfferingCostsTaxDTO(req.body);
 
-    const course = await this.courseService.getById(curso_id);
+    const course = await this.courseService.getById(course_id);
     const createdOfferingCostsTax = await this.courseService.createOfferingCostsTax(
       course.oferecimento.custos_oferecimento.id,
       createOfferingCostsTaxDTO,
@@ -91,10 +91,10 @@ class CourseController {
   };
 
   handleCreateOfferingCostsConditions = async (req, res) => {
-    const { curso_id } = req.params;
+    const { course_id } = req.params;
     const createOfferingCostsConditionsDTO = new CreateOfferingCostsConditionsDTO(req.body);
 
-    const course = await this.courseService.getById(curso_id);
+    const course = await this.courseService.getById(course_id);
     const createdOfferingCostsConditions = await this.courseService.createOfferingCostsConditions(
       course.oferecimento.custos_oferecimento.id,
       createOfferingCostsConditionsDTO,
@@ -104,54 +104,57 @@ class CourseController {
   };
 
   handleAsignCoordination = async (req, res) => {
+    const { course_id } = req.params;
     const asignCoordinationDTO = new AsignCoordinationDTO(req.body);
-    const updatedCourse = await this.courseService.asignCoordination(req.params.curso_id, asignCoordinationDTO);
 
+    const updatedCourse = await this.courseService.asignCoordination(course_id, asignCoordinationDTO);
     return res.status(200).send(updatedCourse);
   };
 
   handleAsignUnicamp = async (req, res) => {
+    const { course_id } = req.params;
     const asignUnicampDTO = new AsignUnicampDTO(req.body);
-    const updatedCourse = await this.courseService.asignUnicamp(req.params.curso_id, asignUnicampDTO);
 
+    const updatedCourse = await this.courseService.asignUnicamp(course_id, asignUnicampDTO);
     return res.status(200).send(updatedCourse);
   };
 
   handleAsignAttached = async (req, res) => {
+    const { course_id } = req.params;
     const asignAttachedDTO = new AsignAttachedDTO(req.body);
-    const updatedCourse = await this.courseService.asignAttached(req.params.curso_id, asignAttachedDTO);
 
+    const updatedCourse = await this.courseService.asignAttached(course_id, asignAttachedDTO);
     return res.status(200).send(updatedCourse);
   };
 
   handleAsignUnattached = async (req, res) => {
+    const { course_id } = req.params;
     const asignUnattachedDTO = new AsignUnattachedDTO(req.body);
-    const updatedCourse = await this.courseService.asignUnattached(req.params.curso_id, asignUnattachedDTO);
 
+    const updatedCourse = await this.courseService.asignUnattached(course_id, asignUnattachedDTO);
     return res.status(200).send(updatedCourse);
   };
 
   handleAsignSpeaker = async (req, res) => {
+    const { course_id } = req.params;
     const asignSpeakerDTO = new AsignSpeakerDTO(req.body);
-    const updatedCourse = await this.courseService.asignSpeaker(req.params.curso_id, asignSpeakerDTO);
 
+    const updatedCourse = await this.courseService.asignSpeaker(course_id, asignSpeakerDTO);
     return res.status(200).send(updatedCourse);
   };
 
   handleSubscribeStudent = async (req, res) => {
-    const { curso_id } = req.params;
+    const { course_id } = req.params;
 
-    const subscribedStudent = await this.courseService.subscribeStudent(curso_id, req.profile.sub, req.body);
-
-    res.status(200).send(subscribedStudent);
+    const subscribedStudent = await this.courseService.subscribeStudent(course_id, req.profile.sub, req.body);
+    return res.status(200).send(subscribedStudent);
   };
 
   handleUnsubscribeStudent = async (req, res) => {
-    const { curso_id } = req.params;
+    const { course_id } = req.params;
 
-    const unsubscribedStudent = await this.courseService.unsubscribeStudent(curso_id, req.profile.sub);
-
-    res.status(200).send(unsubscribedStudent);
+    const unsubscribedStudent = await this.courseService.unsubscribeStudent(course_id, req.profile.sub);
+    return res.status(200).send(unsubscribedStudent);
   };
 }
 

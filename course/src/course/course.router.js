@@ -11,7 +11,7 @@ class CourseRouter {
   execute() {
     this.router.get('/', { onRequest: this.authMiddleware.ensureAuthenticated }, this.courseController.handleGetAll);
     this.router.get(
-      '/:curso_id',
+      '/:course_id',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleGetById,
     );
@@ -21,62 +21,62 @@ class CourseRouter {
       this.courseController.handleCreateCourse,
     );
     this.router.get(
-      '/:curso_id/oferecimento',
+      '/:course_id/oferecimento',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleGetCourseOffering,
     );
     this.router.post(
-      '/:curso_id/oferecimento',
+      '/:course_id/oferecimento',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateOffering,
     );
     this.router.post(
-      '/:curso_id/custos-oferecimento',
+      '/:course_id/custos-oferecimento',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateOfferingCosts,
     );
     this.router.post(
-      '/:curso_id/custos-oferecimento/taxas',
+      '/:course_id/custos-oferecimento/taxas',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateOfferingCostsTax,
     );
     this.router.post(
-      '/:curso_id/custos-oferecimento/condicoes',
+      '/:course_id/custos-oferecimento/condicoes',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleCreateOfferingCostsConditions,
     );
     this.router.patch(
-      '/:curso_id/coordenacao',
+      '/:course_id/coordenacao',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignCoordination,
     );
     this.router.patch(
-      '/:curso_id/docentes/unicamp',
+      '/:course_id/docentes/unicamp',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignUnicamp,
     );
     this.router.patch(
-      '/:curso_id/docentes/com-vinculo',
+      '/:course_id/docentes/com-vinculo',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignAttached,
     );
     this.router.patch(
-      '/:curso_id/docentes/sem-vinculo',
+      '/:course_id/docentes/sem-vinculo',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignUnattached,
     );
     this.router.patch(
-      '/:curso_id/palestrantes',
+      '/:course_id/palestrantes',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleAsignSpeaker,
     );
     this.router.patch(
-      '/:curso_id/inscrever',
+      '/:course_id/inscrever',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleSubscribeStudent,
     );
     this.router.delete(
-      '/:curso_id/desinscrever',
+      '/:course_id/desinscrever',
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.courseController.handleUnsubscribeStudent,
     );

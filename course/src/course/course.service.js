@@ -15,8 +15,8 @@ class CourseService {
     return { courses, coursesAmount };
   }
 
-  async getById(curso_id) {
-    const course = await this.courseRepository.findById(curso_id);
+  async getById(course_id) {
+    const course = await this.courseRepository.findById(course_id);
 
     if (!course) {
       throw new NotFoundException('Curso não encontrado.');
@@ -32,11 +32,10 @@ class CourseService {
   async createOfferingAndSubscription(course_id, { inscricao, ...createOfferingDTO }) {
     await this.getById(course_id);
 
-    return await this.courseRepository.createOffering(course_id, createOfferingDTO).then(async createdOffering => {
-      await this.courseRepository.createSubscription(createdOffering.id, inscricao);
+    const createdOffering = await this.courseRepository.createOffering(course_id, createOfferingDTO);
+    await this.courseRepository.createSubscription(createdOffering.id, inscricao);
 
-      return await this.courseRepository.findOfferingById(createdOffering.id);
-    });
+    return await this.courseRepository.findOfferingById(createdOffering.id);
   }
 
   async createOfferingCosts(offering_id, createOfferingCostsDTO) {
