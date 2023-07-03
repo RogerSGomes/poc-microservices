@@ -40,6 +40,17 @@ class ProfessorRepository {
     }
   }
 
+  async update(professor_id, updateProfessorDTO) {
+    try {
+      return await prismaClient.professor.update({
+        where: { id: professor_id },
+        data: updateProfessorDTO,
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async count() {
     try {
       return await prismaClient.professor.count();

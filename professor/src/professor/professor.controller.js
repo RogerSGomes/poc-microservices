@@ -1,5 +1,5 @@
 const { ProfessorService } = require('./professor.service');
-const { SignUpDTO, SignInDTO, CreateProfessorDTO } = require('./dtos');
+const { SignUpDTO, SignInDTO, CreateProfessorDTO, UpdateProfessorDTO } = require('./dtos');
 
 class ProfessorController {
   constructor() {
@@ -18,6 +18,21 @@ class ProfessorController {
     return res.status(200).send(professor);
   };
 
+  handleCreateProfessor = async (req, res) => {
+    const createProfessorDTO = new CreateProfessorDTO(req.body);
+
+    const createdProfessor = await this.professorService.createProfessor(createProfessorDTO);
+    return res.status(201).send(createdProfessor);
+  };
+
+  handleUpdateProfessor = async (req, res) => {
+    const { professor_id } = req.params;
+    const updateProfessorDTO = new UpdateProfessorDTO(req.body);
+
+    const updatedProfessor = await this.professorService.updateProfessor(professor_id, updateProfessorDTO);
+    return res.status(201).send(updatedProfessor);
+  };
+
   handleSignIn = async (req, res) => {
     const signInDTO = new SignInDTO(req.body);
 
@@ -29,13 +44,6 @@ class ProfessorController {
     const signUpDTO = new SignUpDTO(req.body);
 
     const createdProfessor = await this.professorService.createProfessor(signUpDTO);
-    return res.status(201).send(createdProfessor);
-  };
-
-  handleCreateProfessor = async (req, res) => {
-    const createProfessorDTO = new CreateProfessorDTO(req.body);
-
-    const createdProfessor = await this.professorService.createProfessor(createProfessorDTO);
     return res.status(201).send(createdProfessor);
   };
 }

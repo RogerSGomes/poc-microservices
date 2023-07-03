@@ -24,6 +24,13 @@ class ProfessorRouter {
       },
       this.professorController.handleGetById,
     );
+    this.router.put(
+      `/:professor_id`,
+      {
+        onRequest: this.authMiddleware.ensureAuthenticated,
+      },
+      this.professorController.handleUpdateProfessor,
+    );
     this.router.post(`/cadastrar`, this.professorController.handleSignUp);
     this.router.post(`/entrar`, this.professorController.handleSignIn);
   }

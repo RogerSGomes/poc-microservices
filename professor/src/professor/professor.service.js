@@ -8,10 +8,6 @@ class ProfessorService {
     this.professorRepository = new ProfessorRepository();
   }
 
-  async createProfessor(createProfessorDTO) {
-    return await this.professorRepository.create(createProfessorDTO);
-  }
-
   async getAll() {
     const professors = await this.professorRepository.findAll();
     const professorsAmount = await this.professorRepository.count();
@@ -27,6 +23,14 @@ class ProfessorService {
     }
 
     return professor;
+  }
+
+  async createProfessor(createProfessorDTO) {
+    return await this.professorRepository.create(createProfessorDTO);
+  }
+
+  async updateProfessor(professor_id, updateProfessorDTO) {
+    return await this.professorRepository.update(professor_id, updateProfessorDTO);
   }
 
   async signIn(signInDTO) {
