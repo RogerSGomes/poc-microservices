@@ -17,7 +17,7 @@ class UpdateStudentDTO {
         tipo: joi.string(),
         numero: joi.string(),
         orgao_emissor: joi.string(),
-        uf_emissao: joi.string().equal(2),
+        uf_emissao: joi.string().length(2),
       }),
       cpf: joi.string().max(14),
       data_nascimento: joi.string().isoDate(),
@@ -27,11 +27,11 @@ class UpdateStudentDTO {
         numero: joi.string().max(10),
         bairro: joi.string().max(255),
         complemento: joi.string().max(255),
-        estado: joi.string().equal(2),
+        estado: joi.string().length(2),
         cidade: joi.string().max(255),
         pais_residencia: joi.string().max(255),
       }),
-      origem: joi.object({
+      naturalidade: joi.object({
         pais: joi.string().max(255),
         estado: joi.string().max(255),
         cidade: joi.string().max(255),

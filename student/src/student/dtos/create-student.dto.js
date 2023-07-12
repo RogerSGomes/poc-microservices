@@ -43,7 +43,7 @@ class CreateStudentDTO {
         cidade: joi.string().max(255).required(),
         pais_residencia: joi.string().max(255).required(),
       }),
-      origem: joi.object({
+      naturalidade: joi.object({
         pais: joi.string().max(255).required(),
         estado: joi.string().max(255).required(),
         cidade: joi.string().max(255).required(),
