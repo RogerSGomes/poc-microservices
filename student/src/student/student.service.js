@@ -33,6 +33,29 @@ class StudentService {
   }
 
   async updateStudent(student_id, updateStudentDTO) {
+    if (
+      (updateStudentDTO.documento_identificacao !== undefined) |
+      (updateStudentDTO.endereco !== undefined) |
+      (updateStudentDTO.naturalidade !== undefined)
+    ) {
+      const student = await this.getById(student_id);
+
+      updateStudentDTO.documento_identificacao = {
+        ...student.documento_identificacao,
+        ...updateStudentDTO.documento_identificacao,
+      };
+
+      updateStudentDTO.endereco = {
+        ...student.endereco,
+        ...updateStudentDTO.endereco,
+      };
+
+      updateStudentDTO.naturalidade = {
+        ...student.naturalidade,
+        ...updateStudentDTO.naturalidade,
+      };
+    }
+
     return await this.studentRepository.update(student_id, updateStudentDTO);
   }
 
