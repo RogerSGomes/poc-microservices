@@ -1,4 +1,5 @@
 const fastify = require('fastify');
+const cors = require('@fastify/cors');
 require('dotenv').config();
 
 // Application clients
@@ -12,6 +13,11 @@ async function bootstrap() {
   const app = fastify();
   const port = process.env.PORT || 3003;
 
+  await app.register(cors, {
+    allowedHeaders: '*',
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  });
   app.getDefaultJsonParser();
 
   app.get('/', (req, res) => {

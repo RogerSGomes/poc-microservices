@@ -8,6 +8,7 @@
     "start:dev": "nodemon src"
   },
   "dependencies": {
+    "@fastify/cors": "^8.3.0",
     "@prisma/client": "^4.16.1",
     "amqplib": "^0.10.3",
     "dotenv": "^16.3.1",
