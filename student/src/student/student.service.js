@@ -28,6 +28,16 @@ class StudentService {
     return student;
   }
 
+  async getByLogin(student_login) {
+    const student = await this.studentRepository.findByLogin(student_login);
+
+    if (!student) {
+      throw new NotFoundException('Aluno não encontrado.');
+    }
+
+    return student;
+  }
+
   async createStudent(createStudentDTO) {
     return await this.studentRepository.create(createStudentDTO);
   }
@@ -57,17 +67,6 @@ class StudentService {
     }
 
     return await this.studentRepository.update(student_id, updateStudentDTO);
-  }
-
-  async signIn(signInDTO) {
-    const student = await this.studentRepository.findByLogin(signInDTO.login);
-
-    return await rmqServer.executeRPC({
-      message: { dto: signInDTO, model: student, role: 'student' },
-      queue: 'authentication_queue',
-      replyQueue: 'authenticated_students_queue',
-      correlationId: signInDTO.login,
-    });
   }
 }
 

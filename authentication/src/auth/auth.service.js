@@ -1,17 +1,40 @@
 const jwt = require('jsonwebtoken');
 
 const { rmqServer } = require('../servers/rmq.server');
+const { UnauthorizedException } = require('../exceptions/unauthorized.exception');
 
 class AuthService {
-  async authenticate(signInDTO) {
-    const reply = await rmqServer.executeRPC({
-      message: signInDTO,
-      queue: 'auth_identity_queue',
-      replyQueue: 'auth_response_queue',
-      correlationId: signInDTO.login,
-    });
+  async verifyLogin(login) {
+    try {
+      const result = await rmqServer.executeRPC({
+        message: { login },
+        queue: 'auth_professor_queue',
+        replyQueue: 'auth_response_queue',
+        correlationId: login,
+      });
 
-    return reply;
+      return {
+        model: result,
+        role: 'Professor',
+      };
+    } catch (error) {
+      console.log(error);
+      return await rmqServer.executeRPC({
+        message: { login },
+        queue: 'auth_student_queue',
+        replyQueue: 'auth_response_queue',
+        correlationId: login,
+      });
+    }
+  }
+
+  async authenticate(signInDTO) {
+    try {
+      const result = await this.verifyLogin(signInDTO.login);
+      return result;
+    } catch (error) {
+      throw new UnauthorizedException('Credenciais incorretas.');
+    }
   }
 
   // authenticate({ dto, model, role }) {

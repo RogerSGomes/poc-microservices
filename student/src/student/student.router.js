@@ -25,7 +25,6 @@ class StudentRouter {
       { onRequest: this.authMiddleware.ensureAuthenticated },
       this.studentController.handleUpdateStudent,
     );
-    this.router.post(`/entrar`, this.studentController.handleSignIn);
     this.router.post('/cadastrar', this.studentController.handleSignUp);
   }
 }

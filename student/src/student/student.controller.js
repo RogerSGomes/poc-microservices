@@ -37,13 +37,6 @@ class StudentController {
     return res.status(200).send(updatedStudent);
   };
 
-  handleSignIn = async (req, res) => {
-    const signInDTO = new SignInDTO(req.body);
-
-    const access = await this.studentService.signIn(signInDTO);
-    return res.status(200).send(access);
-  };
-
   handleSignUp = async (req, res) => {
     const signUpDTO = new SignUpDTO(req.body);
 

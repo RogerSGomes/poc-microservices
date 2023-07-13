@@ -32,7 +32,6 @@ class ProfessorRouter {
       this.professorController.handleUpdateProfessor,
     );
     this.router.post(`/cadastrar`, this.professorController.handleSignUp);
-    this.router.post(`/entrar`, this.professorController.handleSignIn);
   }
 }
 

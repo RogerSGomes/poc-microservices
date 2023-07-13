@@ -33,13 +33,6 @@ class ProfessorController {
     return res.status(201).send(updatedProfessor);
   };
 
-  handleSignIn = async (req, res) => {
-    const signInDTO = new SignInDTO(req.body);
-
-    const access = await this.professorService.signIn(signInDTO);
-    return res.status(200).send(access);
-  };
-
   handleSignUp = async (req, res) => {
     const signUpDTO = new SignUpDTO(req.body);
 

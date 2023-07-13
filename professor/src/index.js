@@ -10,6 +10,7 @@ const { rmqServer } = require('./servers/rmq.server');
 
 // Application modules
 const { ProfessorModule } = require('./professor/professor.module');
+const { ProfessorConsumer } = require('./professor/professor.consumer');
 
 async function bootstrap() {
   const app = fastify();
@@ -28,6 +29,7 @@ async function bootstrap() {
 
   // Iniciando módulos
   new ProfessorModule(app).execute();
+  await new ProfessorConsumer().execute();
 
   app.listen({ port }, () => {
     console.log(`Application is running at port ${port}`);
