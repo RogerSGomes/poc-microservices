@@ -7,21 +7,7 @@ class AuthConsumer {
   }
 
   async execute() {
-    await this.authenticationConsumer();
     await this.ensureAuthenticatedConsumer();
-  }
-
-  async authenticationConsumer() {
-    await rmqServer.channel.assertQueue('authentication_queue');
-    await rmqServer.channel.consume('authentication_queue', message => {
-      const result = this.authService.authenticate(JSON.parse(message.content.toString()));
-
-      rmqServer.channel.sendToQueue(message.properties.replyTo, Buffer.from(JSON.stringify(result)), {
-        correlationId: message.properties.correlationId,
-      });
-
-      rmqServer.channel.ack(message);
-    });
   }
 
   async ensureAuthenticatedConsumer() {

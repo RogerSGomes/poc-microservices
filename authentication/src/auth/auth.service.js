@@ -4,9 +4,27 @@ const { rmqServer } = require('../servers/rmq.server');
 const { UnauthorizedException } = require('../exceptions/unauthorized.exception');
 
 class AuthService {
+  async authenticate({ login, senha }) {
+    try {
+      const { model, role } = await this.verifyLogin(login);
+
+      if (model.senha != senha) {
+        throw new Error('Senha incorreta.');
+      }
+
+      return {
+        user_id: model.id,
+        path: role,
+        access_token: jwt.sign({ sub: model.id, role }, process.env.JWT_SECRET),
+      };
+    } catch (error) {
+      throw new UnauthorizedException('Credenciais incorretas.');
+    }
+  }
+
   async verifyLogin(login) {
     try {
-      const result = await rmqServer.executeRPC({
+      const professor = await rmqServer.executeRPC({
         message: { login },
         queue: 'auth_professor_queue',
         replyQueue: 'auth_response_queue',
@@ -14,41 +32,23 @@ class AuthService {
       });
 
       return {
-        model: result,
-        role: 'Professor',
+        model: professor,
+        role: 'professor',
       };
     } catch (error) {
-      console.log(error);
-      return await rmqServer.executeRPC({
+      const student = await rmqServer.executeRPC({
         message: { login },
         queue: 'auth_student_queue',
         replyQueue: 'auth_response_queue',
         correlationId: login,
       });
+
+      return {
+        model: student,
+        role: 'student',
+      };
     }
   }
-
-  async authenticate(signInDTO) {
-    try {
-      const result = await this.verifyLogin(signInDTO.login);
-      return result;
-    } catch (error) {
-      throw new UnauthorizedException('Credenciais incorretas.');
-    }
-  }
-
-  // authenticate({ dto, model, role }) {
-  //   const isValidCredentials = model?.senha === dto.senha;
-
-  //   return !isValidCredentials
-  //     ? {
-  //         status: 401,
-  //         error: 'Credenciais incorretas.',
-  //       }
-  //     : {
-  //         access_token: jwt.sign({ sub: model.id, role }, process.env.JWT_SECRET),
-  //       };
-  // }
 
   ensureAuthenticated(token) {
     try {
