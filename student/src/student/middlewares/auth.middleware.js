@@ -7,7 +7,6 @@ class AuthMiddleware {
     const tokenPayload = await rmqServer.executeRPC({
       message: token,
       queue: 'ensure_authenticated_queue',
-      replyQueue: 'ensure_authenticated_response_queue',
       correlationId: token,
     });
 

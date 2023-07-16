@@ -13,13 +13,19 @@ class AuthConsumer {
   async ensureAuthenticatedConsumer() {
     await rmqServer.channel.assertQueue('ensure_authenticated_queue');
     await rmqServer.channel.consume('ensure_authenticated_queue', message => {
-      const result = this.authService.ensureAuthenticated(JSON.parse(message.content.toString()));
+      try {
+        const result = this.authService.ensureAuthenticated(JSON.parse(message.content.toString()));
 
-      rmqServer.channel.sendToQueue(message.properties.replyTo, Buffer.from(JSON.stringify(result)), {
-        correlationId: message.properties.correlationId,
-      });
-
-      rmqServer.channel.ack(message);
+        rmqServer.channel.sendToQueue(message.properties.replyTo, Buffer.from(JSON.stringify(result)), {
+          correlationId: message.properties.correlationId,
+        });
+      } catch (error) {
+        rmqServer.channel.sendToQueue(message.properties.replyTo, Buffer.from(JSON.stringify(error)), {
+          correlationId: message.properties.correlationId,
+        });
+      } finally {
+        rmqServer.channel.ack(message);
+      }
     });
   }
 }

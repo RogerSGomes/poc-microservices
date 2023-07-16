@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const { rmqServer } = require('../servers/rmq.server');
-const { UnauthorizedException } = require('../exceptions/unauthorized.exception');
+const { UnauthorizedException, ForbiddenException } = require('../exceptions');
 
 class AuthService {
   async authenticate({ login, senha }) {
@@ -27,7 +27,6 @@ class AuthService {
       const professor = await rmqServer.executeRPC({
         message: { login },
         queue: 'auth_professor_queue',
-        replyQueue: 'auth_response_queue',
         correlationId: login,
       });
 
@@ -39,7 +38,6 @@ class AuthService {
       const student = await rmqServer.executeRPC({
         message: { login },
         queue: 'auth_student_queue',
-        replyQueue: 'auth_response_queue',
         correlationId: login,
       });
 
@@ -54,10 +52,7 @@ class AuthService {
     try {
       return jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
-      return {
-        status: 403,
-        error: error.message,
-      };
+      throw new ForbiddenException(error.message);
     }
   }
 }
