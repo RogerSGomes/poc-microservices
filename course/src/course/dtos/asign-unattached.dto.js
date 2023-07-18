@@ -9,7 +9,9 @@ class AsignUnattachedDTO {
 
   dtoSchema() {
     return joi.object({
+      id: joi.string().uuid().required(),
       nome: joi.string().required(),
+      matricula: joi.string().required(),
       documento_identificacao: joi
         .object({
           tipo: joi.string().required(),

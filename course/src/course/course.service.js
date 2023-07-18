@@ -102,7 +102,10 @@ class CourseService {
 
   async createOfferingCostsConditions(course_id, createOfferingCostsConditionsDTO) {
     const offeringCosts = await this.getCourseOfferingCosts(course_id);
-    return await this.courseRepository.createOfferingCostsConditions(offeringCosts.id, createOfferingCostsConditionsDTO);
+    return await this.courseRepository.createOfferingCostsConditions(
+      offeringCosts.id,
+      createOfferingCostsConditionsDTO,
+    );
   }
 
   async updateCourse(course_id, updateCourseDTO) {
@@ -137,7 +140,10 @@ class CourseService {
 
   async updateOfferingCostsConditions(course_id, updateOfferingCostsConditionsDTO) {
     const offeringCostsConditions = await this.getCourseOfferingCostsConditions(course_id);
-    return await this.courseRepository.updateOfferingCostsConditions(offeringCostsConditions.id, updateOfferingCostsConditionsDTO);
+    return await this.courseRepository.updateOfferingCostsConditions(
+      offeringCostsConditions.id,
+      updateOfferingCostsConditionsDTO,
+    );
   }
 
   async asignCoordination(course_id, asignCoordinationDTO) {
@@ -181,10 +187,10 @@ class CourseService {
   async asignUnattached(course_id, asignUnattachedDTO) {
     const { docentes_sem_vinculo } = await this.getById(course_id);
 
-    if (docentes_sem_vinculo.find(docente => asignUnattachedDTO.nome === docente.nome)) {
+    if (docentes_sem_vinculo.find(docente => asignUnattachedDTO.id === docente.id)) {
       throw new BadRequestException('Este professor já está vinculado a este curso.');
     } else {
-      const updatedUnattached = [...docentes_sem_vinculo, { id: uuid.v4(), ...asignUnattachedDTO }];
+      const updatedUnattached = [...docentes_sem_vinculo, asignUnattachedDTO];
 
       await this.courseRepository.update(course_id, {
         docentes_sem_vinculo: updatedUnattached,
@@ -333,7 +339,10 @@ class CourseService {
       throw new BadRequestException('Este aluno já está inscrito neste curso.');
     } else {
       // Envia à fila de atualização de alunos a DTO a ser atualizada para o aluno.
-      rmqServer.channel.sendToQueue('update_student_queue', Buffer.from(JSON.stringify({ student_id, dto: studentDTO })));
+      rmqServer.channel.sendToQueue(
+        'update_student_queue',
+        Buffer.from(JSON.stringify({ student_id, dto: studentDTO })),
+      );
 
       const updated_students = [...alunos, student_id];
 

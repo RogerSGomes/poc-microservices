@@ -10,6 +10,7 @@ class UpdateUnattachedDTO {
   dtoSchema() {
     return joi.object({
       nome: joi.string(),
+      matricula: joi.string(),
       documento_identificacao: joi.object({
         tipo: joi.string(),
         nmr_documento: joi.string(),
