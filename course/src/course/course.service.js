@@ -203,10 +203,10 @@ class CourseService {
   async asignSpeaker(course_id, asignSpeakerDTO) {
     const { palestrantes } = await this.getById(course_id);
 
-    if (palestrantes.find(palestrante => asignSpeakerDTO.nome === palestrante.nome)) {
+    if (palestrantes.find(palestrante => asignSpeakerDTO.id === palestrante.id)) {
       throw new BadRequestException('Este palestrante já está vinculado a este curso.');
     } else {
-      const updatedSpeakers = [...palestrantes, { id: uuid.v4(), ...asignSpeakerDTO }];
+      const updatedSpeakers = [...palestrantes, asignSpeakerDTO];
 
       await this.courseRepository.update(course_id, {
         palestrantes: updatedSpeakers,

@@ -10,6 +10,9 @@ class UpdateSpeakerDTO {
   dtoSchema() {
     return joi.object({
       nome: joi.string(),
+      matricula: joi.string(),
+      instituicao: joi.string(),
+      titulacao: joi.string(),
       tipo_vinculo: joi.string(),
       nome_palestra: joi.string(),
       valor: joi.number(),

@@ -9,7 +9,11 @@ class AsignSpeakerDTO {
 
   dtoSchema() {
     return joi.object({
+      id: joi.string().uuid().required(),
       nome: joi.string().required(),
+      matricula: joi.string().required(),
+      instituicao: joi.string(),
+      titulacao: joi.string(),
       tipo_vinculo: joi.string().required(),
       nome_palestra: joi.string().required(),
       valor: joi.number().required(),
