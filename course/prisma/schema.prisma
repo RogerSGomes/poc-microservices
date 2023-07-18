@@ -137,9 +137,9 @@ model TaxasCustosOferecimento {
   fixas                      Float?             @default(0)
   aiu_unidade_porcentagem    Float?             @default(0)
   aiu_unidade_valor          Float?             @default(0)
-  fundo_extencao_unidade     String?
-  fundo_extencao_porcentagem Float?             @default(0)
-  fundo_extencao_valor       Float?             @default(0)
+  fundo_extensao_unidade     String?
+  fundo_extensao_porcentagem Float?             @default(0)
+  fundo_extensao_valor       Float?             @default(0)
   total                      Float?             @default(0)
   subsidios                  Float?             @default(0)
   custo_total                Float?             @default(0)
