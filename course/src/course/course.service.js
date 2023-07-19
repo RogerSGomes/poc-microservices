@@ -332,19 +332,19 @@ class CourseService {
     return palestrantes;
   }
 
-  async subscribeStudent(course_id, student_id, studentDTO) {
+  async subscribeStudent(course_id, subscribeStudentDTO, updateStudentDTO) {
     const { alunos } = await this.getById(course_id);
 
-    if (alunos.find(aluno_id => aluno_id === student_id)) {
+    if (alunos.find(aluno => aluno?.id === subscribeStudentDTO.id)) {
       throw new BadRequestException('Este aluno já está inscrito neste curso.');
     } else {
-      // Envia à fila de atualização de alunos a DTO a ser atualizada para o aluno.
+      // Envia à fila de atualização de alunos a DTO para atualizar o aluno.
       rmqServer.channel.sendToQueue(
         'update_student_queue',
-        Buffer.from(JSON.stringify({ student_id, dto: studentDTO })),
+        Buffer.from(JSON.stringify({ student_id: subscribeStudentDTO.id, dto: updateStudentDTO })),
       );
 
-      const updated_students = [...alunos, student_id];
+      const updated_students = [...alunos, subscribeStudentDTO];
 
       await this.courseRepository.update(course_id, {
         alunos: updated_students,
@@ -356,7 +356,7 @@ class CourseService {
 
   async unsubscribeStudent(course_id, student_id) {
     const { alunos } = await this.getById(course_id);
-    const studentIndex = alunos.findIndex(aluno_id => aluno_id === student_id);
+    const studentIndex = alunos.findIndex(aluno => aluno.id === student_id);
 
     if (studentIndex < 0) {
       throw new BadRequestException('Este aluno não está inscrito neste curso.');

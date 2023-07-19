@@ -20,6 +20,7 @@ const {
   UpdateUnattachedDTO,
   UpdateSpeakerDTO,
   UpdateCoordinationDTO,
+  SubscribeStudentDTO,
 } = require('./dtos');
 
 class CourseController {
@@ -263,8 +264,22 @@ class CourseController {
 
   handleSubscribeStudent = async (req, res) => {
     const { course_id } = req.params;
+    const { termo_compromisso_assinado, documentos_upload, cpf_upload, declaracao_upload, ...updateStudentDTO } =
+      req.body;
 
-    const subscribedStudent = await this.courseService.subscribeStudent(course_id, req.profile.sub, req.body);
+    const subscribeStudentDTO = new SubscribeStudentDTO({
+      id: req.profile.sub,
+      termo_compromisso_assinado,
+      documentos_upload,
+      cpf_upload,
+      declaracao_upload,
+    });
+
+    const subscribedStudent = await this.courseService.subscribeStudent(
+      course_id,
+      subscribeStudentDTO,
+      updateStudentDTO,
+    );
     return res.status(201).send(subscribedStudent);
   };
 

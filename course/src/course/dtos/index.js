@@ -18,6 +18,7 @@ const { UpdateUnicampDTO } = require('./update-unicamp.dto');
 const { UpdateAttachedDTO } = require('./update-attached.dto');
 const { UpdateUnattachedDTO } = require('./update-unattached.dto');
 const { UpdateSpeakerDTO } = require('./update-speaker.dto');
+const { SubscribeStudentDTO } = require('./subscribe-student.dto');
 
 module.exports = {
   CreateCourseDTO,
@@ -40,4 +41,5 @@ module.exports = {
   UpdateAttachedDTO,
   UpdateUnattachedDTO,
   UpdateSpeakerDTO,
+  SubscribeStudentDTO,
 };
