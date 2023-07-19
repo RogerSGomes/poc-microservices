@@ -4,7 +4,18 @@ const { InternalServerErrorException } = require('../exceptions');
 class CourseRepository {
   async findAll() {
     try {
-      return await prismaClient.curso.findMany();
+      return await prismaClient.curso.findMany({
+        include: {
+          oferecimento: {
+            include: {
+              inscricao: true,
+              custos_oferecimento: {
+                include: { taxas_custos_oferecimento: true, condicoes_custos_oferecimento: true },
+              },
+            },
+          },
+        },
+      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
