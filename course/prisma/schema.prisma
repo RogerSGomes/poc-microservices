@@ -44,7 +44,7 @@ model Curso {
   docentes_vinculo                 Json[]
   docentes_sem_vinculo             Json[]
   palestrantes                     Json[]
-  alunos                           String[]
+  alunos                           Json[]
   created_by                       String
   created_at                       DateTime      @default(dbgenerated("now()"))
   updated_at                       DateTime      @default(dbgenerated("now()"))
