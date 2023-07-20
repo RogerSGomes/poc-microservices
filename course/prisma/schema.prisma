@@ -9,7 +9,7 @@ datasource db {
 
 model Curso {
   id                               String        @id @default(uuid()) @map("curso_id")
-  curso_status                     String        @default("Pendente")
+  curso_status                     String        @default("Incompleta")
   sigla                            String
   nome                             String
   tipo                             String
