@@ -9,7 +9,7 @@ class UpdateCourseDTO {
 
   dtoSchema() {
     return joi.object({
-      curso_status: joi.string().valid(['Incompleta', 'Pendente', 'Andamento']),
+      curso_status: joi.string().valid('Incompleta', 'Pendente', 'Andamento'),
       sigla: joi.string(),
       nome: joi.string(),
       tipo: joi.string(),
