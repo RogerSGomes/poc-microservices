@@ -1,4 +1,7 @@
 -- CreateEnum
+CREATE TYPE "CursoStatus" AS ENUM ('Incompleta', 'Pendente', 'Andamento');
+
+-- CreateEnum
 CREATE TYPE "InscricaoModelo" AS ENUM ('Basico', 'Completo');
 
 -- CreateEnum
@@ -7,7 +10,7 @@ CREATE TYPE "AssinaturaStatus" AS ENUM ('Pendente', 'Assinado');
 -- CreateTable
 CREATE TABLE "Curso" (
     "curso_id" TEXT NOT NULL,
-    "curso_status" TEXT NOT NULL DEFAULT 'Pendente',
+    "curso_status" "CursoStatus" NOT NULL DEFAULT 'Incompleta',
     "sigla" TEXT NOT NULL,
     "nome" TEXT NOT NULL,
     "tipo" TEXT NOT NULL,
@@ -141,9 +144,9 @@ CREATE TABLE "TaxasCustosOferecimento" (
     "fixas" DOUBLE PRECISION DEFAULT 0,
     "aiu_unidade_porcentagem" DOUBLE PRECISION DEFAULT 0,
     "aiu_unidade_valor" DOUBLE PRECISION DEFAULT 0,
-    "fundo_extencao_unidade" TEXT,
-    "fundo_extencao_porcentagem" DOUBLE PRECISION DEFAULT 0,
-    "fundo_extencao_valor" DOUBLE PRECISION DEFAULT 0,
+    "fundo_extensao_unidade" TEXT,
+    "fundo_extensao_porcentagem" DOUBLE PRECISION DEFAULT 0,
+    "fundo_extensao_valor" DOUBLE PRECISION DEFAULT 0,
     "total" DOUBLE PRECISION DEFAULT 0,
     "subsidios" DOUBLE PRECISION DEFAULT 0,
     "custo_total" DOUBLE PRECISION DEFAULT 0,
