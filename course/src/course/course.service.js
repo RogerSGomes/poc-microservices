@@ -356,19 +356,17 @@ class CourseService {
 
   async unsubscribeStudent(course_id, student_id) {
     const { alunos } = await this.getById(course_id);
-    const studentIndex = alunos.findIndex(aluno => aluno.id === student_id);
 
-    if (studentIndex < 0) {
-      throw new BadRequestException('Este aluno não está inscrito neste curso.');
-    } else {
-      alunos.splice(studentIndex, 1);
+    alunos.splice(
+      alunos.findIndex(aluno => aluno.id === student_id),
+      1,
+    );
 
-      await this.courseRepository.update(course_id, {
-        alunos,
-      });
+    await this.courseRepository.update(course_id, {
+      alunos,
+    });
 
-      return alunos;
-    }
+    return alunos;
   }
 }
 
