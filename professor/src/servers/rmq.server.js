@@ -18,7 +18,7 @@ class RmqServer {
     const replyQueue = (await channel.assertQueue('', { durable: false })).queue;
 
     // Envia a mensagem para o servidor
-    channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
+    this.channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
       replyTo: replyQueue,
       correlationId: correlationId,
       persistent: true,
@@ -33,9 +33,12 @@ class RmqServer {
     // Fecha o canal apartado
     await channel.close();
 
+    // Deleta a fila de reply
+    await this.channel.deleteQueue(replyQueue);
+
     // Processa a mensagem recebida
     if (reply.error) {
-      throw new Object(reply);
+      throw reply;
     } else {
       return reply;
     }
@@ -43,8 +46,8 @@ class RmqServer {
 }
 
 function replyConsumer(channel, { replyQueue, correlationId }) {
-  return new Promise(async (resolve, reject) => {
-    await channel.consume(replyQueue, message => {
+  return new Promise((resolve, reject) => {
+    channel.consume(replyQueue, message => {
       if (message.properties.correlationId === correlationId) {
         const reply = JSON.parse(message.content.toString());
         channel.ack(message);
