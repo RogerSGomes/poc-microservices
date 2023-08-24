@@ -12,7 +12,7 @@ model Aluno {
   nome                    String    @db.VarChar(255)
   telefone                String
   email                   String    @unique @db.VarChar(255)
-  matricula               String    @unique @db.VarChar(10)
+  matricula               String?   @db.VarChar(10)
   senha                   String    @db.VarChar(255)
   documento_identificacao Json?
   cpf                     String?   @unique @db.VarChar(14)
